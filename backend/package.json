@@ -1,0 +1,20 @@
+{
+  "name": "odin-blog-api",
+  "version": "1.0.0",
+  "description": "Creating an API only backend and two different front-ends for TheOdinProject Blog API project",
+  "type": "module",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "Gerald Javier",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongoose": "^8.0.3",
+    "nodemon": "^3.0.2"
+  }
+}
