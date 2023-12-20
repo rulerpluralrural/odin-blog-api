@@ -9,6 +9,7 @@ export default {
 	users_get: asyncHandler(async (req, res) => {
 		const users = await User.find()
 			.sort([["username", "ascending"]])
+			.select("-password")
 			.exec();
 
 		res.status(StatusCodes.OK).json(users);
