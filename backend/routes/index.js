@@ -1,9 +1,10 @@
 import express from "express";
-
 const router = express.Router();
 
-router.get("/", (req, res) => {
-	res.send("Home Page");
-});
+// import postRouter from "./post.js"
+import userRouter from "./user.js"
+
+// router.use(postRouter)
+router.use(userRouter)
 
 export default router;

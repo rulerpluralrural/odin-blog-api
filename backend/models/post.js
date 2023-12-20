@@ -23,9 +23,6 @@ const PostSchema = new Schema(
 		published: {
 			type: Boolean,
 		},
-		imgUrl: {
-			type: String,
-		},
 		likes: {
 			type: array,
 			default: [],
@@ -38,4 +35,4 @@ MessageSchema.virtual("date_formatted").get(function () {
 	return DateTime.fromJSDate(this.createdAt).toLocaleString(DateTime.DATE_MED);
 });
 
-export default mongoose.model("Post", PostSchema);
+export const Post = mongoose.model("Post", PostSchema);
