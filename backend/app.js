@@ -5,13 +5,7 @@ import connectDB from "./config/database.js";
 import express from "express";
 import cookieParser from "cookie-parser";
 import errorHandler from "./middlewares/error-handler.js";
-
-// AUTHENTICATION
-import passport from "passport";
 import session from "express-session";
-import { Strategy as LocalStrategy } from "passport-local";
-import bcrypt from "bcryptjs";
-import User from "./models/user.js";
 
 const app = express();
 
@@ -31,48 +25,15 @@ app.use(
 		},
 	})
 );
-// app.use(passport.initialize());
-// app.use(passport.session());
-
-// // Passport JS
-// passport.use(
-// 	new LocalStrategy(async (username, password, done) => {
-// 		try {
-// 			const user = await User.findOne({ username: username });
-
-// 			if (!user) return done(null, false, { message: "Username not found" });
-
-// 			bcrypt.compare(password, user.password, (err, res) => {
-// 				if (res) {
-// 					return done(null, user);
-// 				} else {
-// 					return done(null, false, { message: "Invalid password" });
-// 				}
-// 			});
-// 		} catch (error) {
-// 			return done(error);
-// 		}
-// 	})
-// );
-
-// passport.serializeUser((user, done) => {
-// 	done(null, user.id);
-// });
-
-// passport.deserializeUser((userId, done) => {
-// 	User.findById(userId)
-// 		.then((user) => {
-// 			done(null, user);
-// 		})
-// 		.catch((err) => done(err));
-// });
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-app.get("/");
-app.use("/", indexRouter);
+app.get("/", (req, res) => {
+	res.redirect("/blog")
+});
+app.use("/blog", indexRouter);
 
 // Error Handler
 app.use(errorHandler);

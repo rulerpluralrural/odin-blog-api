@@ -17,22 +17,23 @@ const PostSchema = new Schema(
 			required: [true, "Author is required"],
 		},
 		comments: {
-			type: array,
+			type: Array,
 			default: [],
 		},
 		published: {
 			type: Boolean,
+			default: false,
 		},
 		likes: {
-			type: array,
+			type: Array,
 			default: [],
 		},
 	},
 	{ timeStamps: true }
 );
 
-MessageSchema.virtual("date_formatted").get(function () {
+PostSchema.virtual("date_formatted").get(function () {
 	return DateTime.fromJSDate(this.createdAt).toLocaleString(DateTime.DATE_MED);
 });
 
-export const Post = mongoose.model("Post", PostSchema);
+export default mongoose.model("Posts", PostSchema);

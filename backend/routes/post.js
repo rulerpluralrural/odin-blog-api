@@ -1,10 +1,10 @@
-// import express from "express";
-// const router = express.Router();
+import express from "express";
+const router = express.Router();
 
-// import postController from "../controllers/post.js"
+import postController from "../controllers/post.js";
+import authenticateUser from "../middlewares/auth.js";
 
-// // GET request for all post
-// router.get("/", postController.get)
+// POST request for creating a post
+router.post("/create", authenticateUser, postController.create_post);
 
-// // POST request for creating a post
-// router.post("/create", postController.post)
+export default router;
