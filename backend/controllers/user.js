@@ -1,11 +1,10 @@
 import User from "../models/user.js";
 import asyncHandler from "express-async-handler";
 import { StatusCodes } from "http-status-codes";
-import jwt from "jsonwebtoken";
 import { BadRequestError, UnauthenticatedError } from "../errors/index.js";
 
 export default {
-	// Display login form on GET
+	// Display all users on GET
 	users_get: asyncHandler(async (req, res) => {
 		const users = await User.find()
 			.sort([["username", "ascending"]])
@@ -39,7 +38,7 @@ export default {
 			.json({ user: { username: user.username }, token });
 	}),
 
-	// Handle sign-up form on POST
+	// Handle sign-up on POST
 	sign_up_post: asyncHandler(async (req, res) => {
 		const { username, password, email } = req.body;
 
@@ -68,5 +67,14 @@ export default {
 		} else {
 			throw new BadRequestError("Invalid user data");
 		}
+	}),
+
+	// Handle user logout POST
+	logout: asyncHandler(async (req, res) => {
+		res.cookie("token", "logout", {
+			httpOnly: true,
+			expires: new Date(Date.now() + 1000),
+		});
+		res.status(StatusCodes.OK).json({ msg: "User logged out" });
 	}),
 };
