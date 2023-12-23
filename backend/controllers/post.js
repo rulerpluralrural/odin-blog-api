@@ -1,4 +1,4 @@
-import Posts from "../models/post.js";
+import Post from "../models/post.js";
 import asyncHandler from "express-async-handler";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
@@ -22,7 +22,7 @@ export default {
 					.json({ msg: errors.array() });
 			}
 
-			const post = new Posts({
+			const post = new Post({
 				title: req.body.title,
 				content: req.body.content,
 				author: req.user._id,
@@ -40,7 +40,7 @@ export default {
 	get_post: asyncHandler(async (req, res) => {
 		const postId = req.params.id;
 
-		const post = await Posts.findOne({ _id: postId }).populate("author").exec();
+		const post = await Post.findOne({ _id: postId }).populate("author").exec();
 
 		if (!post) {
 			throw new NotFoundError(`No post with the id ${postId}`);
@@ -51,7 +51,7 @@ export default {
 
 	// GET request for all posts
 	get_posts: asyncHandler(async (req, res) => {
-		const posts = await Posts.find({}).exec();
+		const posts = await Post.find({}).exec();
 
 		if (!posts) {
 			throw new NotFoundError(`There are no posts!`);
@@ -78,7 +78,7 @@ export default {
 					.json({ msg: errors.array() });
 			}
 
-			const post = new Posts({
+			const post = new Post({
 				title: req.body.title,
 				content: req.body.content,
 				author: req.user._id,
@@ -86,7 +86,7 @@ export default {
 				_id: req.params.id,
 			});
 
-			await Posts.findByIdAndUpdate({ _id: postId }, post, {
+			await Post.findByIdAndUpdate({ _id: postId }, post, {
 				new: true,
 			});
 
@@ -100,15 +100,16 @@ export default {
 
 	delete_post: asyncHandler(async (req, res) => {
 		const postId = req.params.id;
+		const post = await Post.findByIdAndDelete({ _id: postId });
+		
+		if (!post) {
+			throw new NotFoundError(`No post with this id ${postId}`);
+		}
 
-		const post = await Posts.findByIdAndDelete({ _id: postId });
-
-		res
-			.status(StatusCodes.OK)
-			.json({
-				msg: `Post deleted successfully`,
-				id: post._id,
-				title: post.title,
-			});
+		res.status(StatusCodes.OK).json({
+			msg: `Post deleted successfully`,
+			id: post._id,
+			title: post.title,
+		});
 	}),
 };

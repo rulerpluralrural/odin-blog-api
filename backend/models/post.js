@@ -36,4 +36,4 @@ PostSchema.virtual("date_formatted").get(function () {
 	return DateTime.fromJSDate(this.createdAt).toLocaleString(DateTime.DATE_MED);
 });
 
-export default mongoose.model("Posts", PostSchema);
+export default mongoose.model("Post", PostSchema);

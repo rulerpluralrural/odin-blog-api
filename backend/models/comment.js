@@ -9,7 +9,8 @@ const CommentSchema = new Schema(
 			required: [true, "User is required"],
 		},
 		post: {
-			type: String,
+			type: Schema.Types.ObjectId,
+			ref: "Post",
 			required: [true, "Post is required"],
 		},
 		comment: {
@@ -20,8 +21,8 @@ const CommentSchema = new Schema(
 	{ timeStamps: true }
 );
 
-MessageSchema.virtual("date_formatted").get(function () {
+CommentSchema.virtual("date_formatted").get(function () {
 	return DateTime.fromJSDate(this.createdAt).toLocaleString(DateTime.DATE_MED);
 });
 
-export const Comment = mongoose.model("Comment", CommentSchema);
+export default mongoose.model("Comment", CommentSchema);

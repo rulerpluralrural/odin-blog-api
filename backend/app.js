@@ -31,9 +31,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.get("/", (req, res) => {
-	res.redirect("/blog")
+	res.redirect("/api/blog/posts")
 });
-app.use("/blog", indexRouter);
+app.use("/api/blog", indexRouter);
 
 // Error Handler
 app.use(errorHandler);
