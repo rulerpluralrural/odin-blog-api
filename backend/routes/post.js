@@ -13,8 +13,8 @@ router.get("/posts", authenticateUser, postController.get_posts);
 // GET route for a single post
 router.get("/posts/:id", authenticateUser, postController.get_post);
 
-// PATCH route for a post
-router.patch("/posts/:id", authenticateUser, postController.update_post);
+// PUT route for a post
+router.put("/posts/:id", authenticateUser, postController.update_post);
 
 // DELETE route for a post
 router.delete("/posts/:id", authenticateUser, postController.delete_post);

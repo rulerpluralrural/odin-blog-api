@@ -17,8 +17,8 @@ router.post(
 // GET route for a single comment
 router.get("/comments/:id", authenticateUser, commentController.get_comment);
 
-// PATCH route for updating a comment
-router.patch(
+// PUT route for updating a comment
+router.put(
 	"/comments/:id",
 	authenticateUser,
 	commentController.update_comment

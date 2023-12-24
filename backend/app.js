@@ -6,6 +6,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import errorHandler from "./middlewares/error-handler.js";
 import session from "express-session";
+import cors from "cors";
 
 const app = express();
 
@@ -29,9 +30,17 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(
+	cors({
+		origin: "http://localhost:3000",
+		methods: ["GET", "POST", "PUT", "DELETE"],
+		allowedHeaders: ["Content-Type"],
+	})
+);
 
+// Routes
 app.get("/", (req, res) => {
-	res.redirect("/api/blog/posts")
+	res.redirect("/api/blog/posts");
 });
 app.use("/api/blog", indexRouter);
 

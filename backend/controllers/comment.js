@@ -1,7 +1,7 @@
 import Comment from "../models/comment.js";
 import asyncHandler from "express-async-handler";
 import { StatusCodes } from "http-status-codes";
-import {  NotFoundError } from "../errors/index.js";
+import { NotFoundError } from "../errors/index.js";
 import { check, validationResult } from "express-validator";
 
 export default {
@@ -98,6 +98,10 @@ export default {
 
 		res
 			.status(StatusCodes.OK)
-			.json({ msg: "Comment successfully deleted", id: commentId, comment: comment.comment });
+			.json({
+				msg: "Comment successfully deleted",
+				id: commentId,
+				comment: comment.comment,
+			});
 	}),
 };
