@@ -2,6 +2,7 @@ import User from "../models/user.js";
 import asyncHandler from "express-async-handler";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, UnauthenticatedError } from "../errors/index.js";
+import { check, validationResult } from "express-validator";
 
 export default {
 	// Display all users on GET
@@ -39,35 +40,68 @@ export default {
 	}),
 
 	// Handle sign-up on POST
-	sign_up_post: asyncHandler(async (req, res) => {
-		const { username, password, email } = req.body;
+	sign_up_post: [
+		check("username")
+			.trim()
+			.isLength({ min: 1 })
+			.escape()
+			.withMessage("Username is required")
+			.custom(async (value) => {
+				const existingUsername = await User.findOne({ username: value });
+				if (existingUsername) {
+					throw new BadRequestError(
+						"Username already in use, Please choose a different one"
+					);
+				}
+			}),
+		check("email")
+			.trim()
+			.isLength({ min: 1 })
+			.withMessage("Email is required")
+			.custom(async (value) => {
+				const existingEmail = await User.findOne({ existingEmail: value });
+				if (existingEmail) {
+					throw new BadRequestError(
+						"E-mail is not available, Please choose a different one."
+					);
+				}
+			})
+			.isEmail()
+			.withMessage("Email is not valid"),
+		check("password")
+			.trim()
+			.isLength({ min: 5 })
+			.withMessage(
+				"Password is required and must be at least 5 characters long"
+			),
+		check("password2").custom(async (value, { req }) => {
+			if (value !== req.body.password) {
+				throw new BadRequestError(
+					"Password confirmation does not match password"
+				);
+			}
+		}),
 
-		if (!username || !password || !email) {
-			throw new BadRequestError("Please provide all fields");
-		}
+		asyncHandler(async (req, res) => {
+			const errors = validationResult(errors);
 
-		const [existingUsername, existingEmail] = await Promise.all([
-			User.findOne({ username }),
-			User.findOne({ email }),
-		]);
+			if (!errors.isEmpty()) {
+				throw new Error({ msg: errors.array() });
+			}
 
-		if (existingUsername) {
-			throw new BadRequestError("Username already exists");
-		} else if (existingEmail) {
-			throw new BadRequestError("Email already exists");
-		}
+			const user = await User.create({ ...req.body });
 
-		const user = await User.create({ ...req.body });
-		if (user) {
-			const token = user.createJWT();
-			res.status(StatusCodes.CREATED).json({
-				user: { id: user._id, username: user.username, email: user.email },
-				token,
-			});
-		} else {
-			throw new BadRequestError("Invalid user data");
-		}
-	}),
+			if (user) {
+				const token = user.createJWT();
+				res.status(StatusCodes.CREATED).json({
+					user: { id: user._id, username: user.username, email: user.email },
+					token,
+				});
+			} else {
+				throw new BadRequestError("Invalid user data");
+			}
+		}),
+	],
 
 	// Handle user logout POST
 	logout: asyncHandler(async (req, res) => {
