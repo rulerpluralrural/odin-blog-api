@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaBlog, FaEye } from "react-icons/fa";
+import { FaBlog, FaEye, FaEyeSlash } from "react-icons/fa";
 
 const formControl = "border-slate-400 border-[1px] rounded-sm w-full p-2";
 
@@ -11,7 +11,8 @@ export default function Login() {
 		password2: "",
 	});
 	const { username, email, password, password2 } = formData;
-	const [showPassword, setShowPassword] = useState(false);
+	const [showPassword1, setShowPassword1] = useState(false);
+	const [showPassword2, setShowPassword2] = useState(false);
 
 	const onChange = (e) => {
 		setFormData((prevState) => ({
@@ -24,9 +25,14 @@ export default function Login() {
 		e.preventDefault();
 	};
 
-	const revealPassword = () => {
-		setShowPassword((prevState) => !prevState);
+	const revealPassword1 = () => {
+		setShowPassword1((prevState) => !prevState);
 	};
+
+	const revealPassword2 = () => {
+		setShowPassword2((prevState) => !prevState);
+	};
+
 
 	return (
 		<div className="flex flex-col items-center gap-2 flex-1 font-serif">
@@ -67,7 +73,7 @@ export default function Login() {
 				</div>
 				<div className="w-full relative">
 					<input
-						type={showPassword ? "text" : "password"}
+						type={showPassword1 ? "text" : "password"}
 						name="password"
 						id="password"
 						value={password}
@@ -75,14 +81,21 @@ export default function Login() {
 						className={formControl}
 						onChange={onChange}
 					/>
-					<FaEye
-						className="absolute top-3 right-3 cursor-pointer text-slate-700 text-xl  transition-opacity hover:opacity-90"
-						onClick={revealPassword}
-					></FaEye>
+					{showPassword1 ? (
+						<FaEye
+							className="absolute top-3 right-3 cursor-pointer text-slate-700 text-xl  transition-opacity hover:opacity-90"
+							onClick={revealPassword1}
+						></FaEye>
+					) : (
+						<FaEyeSlash
+							className="absolute top-3 right-3 cursor-pointer text-slate-700 text-xl  transition-opacity hover:opacity-90"
+							onClick={revealPassword1}
+						></FaEyeSlash>
+					)}
 				</div>
 				<div className="w-full relative">
 					<input
-						type={showPassword ? "text" : "password"}
+						type={showPassword2 ? "text" : "password"}
 						name="password2"
 						id="password2"
 						value={password2}
@@ -90,10 +103,17 @@ export default function Login() {
 						className={formControl}
 						onChange={onChange}
 					/>
-					<FaEye
-						className="absolute top-3 right-3 cursor-pointer text-slate-700 text-xl  transition-opacity hover:opacity-90"
-						onClick={revealPassword}
-					></FaEye>
+					{showPassword2 ? (
+						<FaEye
+							className="absolute top-3 right-3 cursor-pointer text-slate-700 text-xl  transition-opacity hover:opacity-90"
+							onClick={revealPassword2}
+						></FaEye>
+					) : (
+						<FaEyeSlash
+							className="absolute top-3 right-3 cursor-pointer text-slate-700 text-xl  transition-opacity hover:opacity-90"
+							onClick={revealPassword2}
+						></FaEyeSlash>
+					)}
 				</div>
 				<button
 					type="submit"

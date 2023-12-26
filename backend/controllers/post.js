@@ -41,6 +41,7 @@ export default {
 		const postId = req.params.id;
 
 		const post = await Post.findOne({ _id: postId }).populate("author").exec();
+		console.log(req.session)
 
 		if (!post) {
 			throw new NotFoundError(`No post with the id ${postId}`);

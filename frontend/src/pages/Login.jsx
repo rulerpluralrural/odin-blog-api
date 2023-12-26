@@ -1,30 +1,63 @@
-import { useState } from "react";
-import { FaBlog, FaEye } from "react-icons/fa";
+import { useEffect, useState } from "react";
+import { FaBlog } from "react-icons/fa";
+import PuffLoader from "react-spinners/PuffLoader";
+import LoginForm from "../components/LoginForm";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-const formControl = "border-slate-400 border-[1px] rounded-sm w-full p-2";
-
-export default function Login() {
+export default function Login({setMessage}) {
 	const [formData, setFormData] = useState({
 		username: "",
 		password: "",
 	});
 	const { username, password } = formData;
-	const [showPassword, setShowPassword] = useState(false)
+	const [showPassword, setShowPassword] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const navigate = useNavigate();
 
-	const onChange = (e) => {
+	const handleChange = (e) => {
 		setFormData((prevState) => ({
 			...prevState,
 			[e.target.name]: e.target.value,
 		}));
 	};
 
-	const onSubmit = (e) => {
+	const handleForm = async (e) => {
 		e.preventDefault();
+		setLoading(true);
+		try {
+			const data = await fetch("http://localhost:8000/api/blog/login", {
+				method: "POST",
+				body: JSON.stringify(formData),
+				credentials: "include",
+				headers: {
+					["Content-Type"]: "application/json; charset=utf-8",
+				},
+			}).then((res) => {
+				return res.json();
+			});
+			setLoading(false);
+			setMessage(true);
+
+			if (data.token) {
+				navigate("/");
+				toast.success("Successfully logged in!");
+			} else {
+				toast.error(data.message);
+			}
+
+			setTimeout(() => {
+				setMessage(false);
+			}, 5000);
+		} catch (error) {
+			setLoading(false);
+			console.log(error);
+		}
 	};
 
 	const revealPassword = () => {
-		setShowPassword((prevState) => !prevState)
-	}
+		setShowPassword((prevState) => !prevState);
+	};
 
 	return (
 		<div className="flex flex-col items-center gap-2 flex-1 font-serif">
@@ -32,46 +65,18 @@ export default function Login() {
 				<FaBlog></FaBlog>
 				<h1 className="font-bold">BLOG API</h1>
 			</div>
-			<form
-				onSubmit={onSubmit}
-				className="flex flex-col gap-2 w-[500px] font-sans"
-			>
-				<div className="w-full text-center ">
-					<h1 className="text-3xl font-bold text-slate-700 py-2 font-serif">
-						Login your account
-					</h1>
-				</div>
-				<div className="w-full">
-					<input
-						type="text"
-						name="username"
-						id="username"
-						value={username}
-						placeholder="Enter your username"
-						className={formControl}
-						onChange={onChange}
-					/>
-				</div>
-				<div className="w-full relative">
-					<input
-						type={showPassword ? "text" : "password"}
-						name="password"
-						id="password"
-						value={password}
-						placeholder="Enter your password"
-						className={formControl}
-						onChange={onChange}
-					/>
-					<FaEye className="absolute top-3 right-3 cursor-pointer text-slate-700 text-xl  transition-opacity hover:opacity-90" onClick={revealPassword}></FaEye>
-				</div>
-				<button
-					type="submit"
-					onClick={onSubmit}
-					className="border-[1px] bg-slate-950 text-slate-200 p-2 font-bold text-xl transition-colors hover:bg-slate-900 text-center"
-				>
-					Submit
-				</button>
-			</form>
+			{loading ? (
+				<PuffLoader />
+			) : (
+				<LoginForm
+					username={username}
+					password={password}
+					showPassword={showPassword}
+					handleForm={handleForm}
+					handleChange={handleChange}
+					revealPassword={revealPassword}
+				></LoginForm>
+			)}
 		</div>
 	);
 }

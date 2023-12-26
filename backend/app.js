@@ -17,7 +17,6 @@ import indexRouter from "./routes/index.js";
 app.use(
 	session({
 		secret: process.env.SECRET,
-		resave: false,
 		saveUninitialized: true,
 		cookie: {
 			signed: true,
@@ -34,6 +33,7 @@ app.use(
 	cors({
 		origin: "http://localhost:5173",
 		methods: ["GET", "POST", "PUT", "DELETE"],
+		credentials: true,
 		allowedHeaders: ["Content-Type"],
 	})
 );

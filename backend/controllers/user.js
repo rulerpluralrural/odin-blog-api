@@ -34,6 +34,9 @@ export default {
 		}
 
 		const token = user.createJWT();
+
+		req.session.token = token;
+
 		res
 			.status(StatusCodes.OK)
 			.json({ user: { username: user.username }, token });
