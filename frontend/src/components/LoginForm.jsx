@@ -3,7 +3,7 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const formControl = "border-slate-400 border-[1px] rounded-sm w-full p-2";
 
-const LoginForm = ({username, password, showPassword, handleForm: handleSubmit, handleChange, revealPassword}) => {
+const LoginForm = ({username, password, showPassword, handleSubmit, handleChange, revealPassword}) => {
 	return (
 		<form
 			onSubmit={handleSubmit}

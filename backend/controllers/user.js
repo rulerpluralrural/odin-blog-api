@@ -113,6 +113,14 @@ export default {
 			httpOnly: true,
 			expires: new Date(Date.now() + 1000),
 		});
+		req.session.token = undefined;
 		res.status(StatusCodes.OK).json({ msg: "User logged out" });
+	}),
+
+	// Check user session
+	check_user_session: asyncHandler(async (req, res) => {
+		res
+			.status(StatusCodes.OK)
+			.json({ isLoggedIn: req.session.token !== undefined });
 	}),
 };

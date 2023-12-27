@@ -48,7 +48,7 @@ export default function Login({setMessage}) {
 
 			setTimeout(() => {
 				setMessage(false);
-			}, 5000);
+			}, 8000);
 		} catch (error) {
 			setLoading(false);
 			console.log(error);
@@ -61,7 +61,7 @@ export default function Login({setMessage}) {
 
 	return (
 		<div className="flex flex-col items-center gap-2 flex-1 font-serif">
-			<div className=" flex center gap-2 text-4xl mt-28 mb-2">
+			<div className=" flex gap-2 text-4xl mt-28 mb-2">
 				<FaBlog></FaBlog>
 				<h1 className="font-bold">BLOG API</h1>
 			</div>
