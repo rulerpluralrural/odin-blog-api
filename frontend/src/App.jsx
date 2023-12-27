@@ -18,7 +18,10 @@ export default function App() {
 					path="/blog/login"
 					element={<Login setMessage={setMessage} />}
 				></Route>
-				<Route path="/blog/sign-up" element={<Register />}></Route>
+				<Route
+					path="/blog/sign-up"
+					element={<Register setMessage={setMessage} />}
+				></Route>
 			</Routes>
 			{message && (
 				<ToastContainer

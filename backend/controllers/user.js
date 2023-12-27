@@ -73,7 +73,7 @@ export default {
 			.withMessage("Email is not valid"),
 		check("password")
 			.trim()
-			.isLength({ min: 5 })
+			.isLength({ min: 6 })
 			.withMessage(
 				"Password is required and must be at least 5 characters long"
 			),
@@ -86,16 +86,17 @@ export default {
 		}),
 
 		asyncHandler(async (req, res) => {
-			const errors = validationResult(errors);
+			const errors = validationResult(req);
 
 			if (!errors.isEmpty()) {
-				throw new Error({ msg: errors.array() });
+				throw new BadRequestError(errors.array());
 			}
-
 			const user = await User.create({ ...req.body });
 
 			if (user) {
 				const token = user.createJWT();
+				req.session.token = token;
+
 				res.status(StatusCodes.CREATED).json({
 					user: { id: user._id, username: user.username, email: user.email },
 					token,

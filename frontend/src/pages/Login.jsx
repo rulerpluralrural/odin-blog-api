@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaBlog } from "react-icons/fa";
 import PuffLoader from "react-spinners/PuffLoader";
 import LoginForm from "../components/LoginForm";
@@ -22,7 +22,7 @@ export default function Login({setMessage}) {
 		}));
 	};
 
-	const handleForm = async (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setLoading(true);
 		try {
@@ -72,7 +72,7 @@ export default function Login({setMessage}) {
 					username={username}
 					password={password}
 					showPassword={showPassword}
-					handleForm={handleForm}
+					handleSubmit={handleSubmit}
 					handleChange={handleChange}
 					revealPassword={revealPassword}
 				></LoginForm>

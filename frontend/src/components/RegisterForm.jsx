@@ -3,7 +3,18 @@ import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 const formControl = "border-slate-400 border-[1px] rounded-sm w-full p-2";
 
-const LoginForm = ({username, password, showPassword, handleForm: handleSubmit, handleChange, revealPassword}) => {
+const RegisterForm = ({
+	username,
+	email,
+	password,
+	password2,
+	handleChange,
+	handleSubmit,
+	showPassword1,
+	showPassword2,
+	revealPassword1,
+	revealPassword2,
+}) => {
 	return (
 		<form
 			onSubmit={handleSubmit}
@@ -11,7 +22,7 @@ const LoginForm = ({username, password, showPassword, handleForm: handleSubmit, 
 		>
 			<div className="w-full text-center ">
 				<h1 className="text-3xl font-bold text-slate-700 py-2 font-serif">
-					Login your account
+					Register an account
 				</h1>
 			</div>
 			<div className="w-full">
@@ -25,9 +36,20 @@ const LoginForm = ({username, password, showPassword, handleForm: handleSubmit, 
 					onChange={handleChange}
 				/>
 			</div>
+			<div className="w-full">
+				<input
+					type="text"
+					name="email"
+					id="email"
+					value={email}
+					placeholder="Enter your email address"
+					className={formControl}
+					onChange={handleChange}
+				/>
+			</div>
 			<div className="w-full relative">
 				<input
-					type={showPassword ? "text" : "password"}
+					type={showPassword1 ? "text" : "password"}
 					name="password"
 					id="password"
 					value={password}
@@ -35,15 +57,37 @@ const LoginForm = ({username, password, showPassword, handleForm: handleSubmit, 
 					className={formControl}
 					onChange={handleChange}
 				/>
-				{showPassword ? (
+				{showPassword1 ? (
 					<FaEye
 						className="absolute top-3 right-3 cursor-pointer text-slate-700 text-xl  transition-opacity hover:opacity-90"
-						onClick={revealPassword}
+						onClick={revealPassword1}
 					></FaEye>
 				) : (
 					<FaEyeSlash
 						className="absolute top-3 right-3 cursor-pointer text-slate-700 text-xl  transition-opacity hover:opacity-90"
-						onClick={revealPassword}
+						onClick={revealPassword1}
+					></FaEyeSlash>
+				)}
+			</div>
+			<div className="w-full relative">
+				<input
+					type={showPassword2 ? "text" : "password"}
+					name="password2"
+					id="password2"
+					value={password2}
+					placeholder="Confirm your password"
+					className={formControl}
+					onChange={handleChange}
+				/>
+				{showPassword2 ? (
+					<FaEye
+						className="absolute top-3 right-3 cursor-pointer text-slate-700 text-xl  transition-opacity hover:opacity-90"
+						onClick={revealPassword2}
+					></FaEye>
+				) : (
+					<FaEyeSlash
+						className="absolute top-3 right-3 cursor-pointer text-slate-700 text-xl  transition-opacity hover:opacity-90"
+						onClick={revealPassword2}
 					></FaEyeSlash>
 				)}
 			</div>
@@ -57,4 +101,4 @@ const LoginForm = ({username, password, showPassword, handleForm: handleSubmit, 
 	);
 };
 
-export default LoginForm;
+export default RegisterForm;

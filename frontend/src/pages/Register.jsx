@@ -1,9 +1,11 @@
 import { useState } from "react";
-import { FaBlog, FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaBlog } from "react-icons/fa";
+import RegisterForm from "../components/RegisterForm";
+import PuffLoader from "react-spinners/PuffLoader";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
-const formControl = "border-slate-400 border-[1px] rounded-sm w-full p-2";
-
-export default function Login() {
+export default function Login({ setMessage }) {
 	const [formData, setFormData] = useState({
 		username: "",
 		email: "",
@@ -13,16 +15,53 @@ export default function Login() {
 	const { username, email, password, password2 } = formData;
 	const [showPassword1, setShowPassword1] = useState(false);
 	const [showPassword2, setShowPassword2] = useState(false);
+	const [loading, setLoading] = useState(false);
+	const navigate = useNavigate();
 
-	const onChange = (e) => {
+	const handleChange = (e) => {
 		setFormData((prevState) => ({
 			...prevState,
 			[e.target.name]: e.target.value,
 		}));
 	};
 
-	const onSubmit = (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
+		setLoading(true);
+		try {
+			const data = await fetch("http://localhost:8000/api/blog/sign-up", {
+				method: "POST",
+				body: JSON.stringify(formData),
+				credentials: "include",
+				headers: {
+					["Content-Type"]: "application/json; charset=utf-8",
+				},
+			}).then((res) => {
+				return res.json();
+			});
+			setLoading(false);
+			setMessage(true);
+
+			if (data.token) {
+				navigate("/");
+				toast.success("Successfully registered!");
+			} else {
+				if (data.messages) {
+					data.messages.forEach((message) => {
+						toast.error(message.msg);
+					});
+				} else {
+					toast.error(data.message);
+				}
+			}
+			// console.log(data);
+			setTimeout(() => {
+				setMessage(false);
+			}, 5000);
+		} catch (error) {
+			setLoading(false);
+			console.log(error);
+		}
 	};
 
 	const revealPassword1 = () => {
@@ -33,96 +72,28 @@ export default function Login() {
 		setShowPassword2((prevState) => !prevState);
 	};
 
-
 	return (
 		<div className="flex flex-col items-center gap-2 flex-1 font-serif">
 			<div className=" flex center gap-2 text-4xl mt-28 mb-2">
 				<FaBlog></FaBlog>
 				<h1 className="font-bold">BLOG API</h1>
 			</div>
-			<form
-				onSubmit={onSubmit}
-				className="flex flex-col gap-2 w-[500px] font-sans"
-			>
-				<div className="w-full text-center ">
-					<h1 className="text-3xl font-bold text-slate-700 py-2 font-serif">
-						Register an account
-					</h1>
-				</div>
-				<div className="w-full">
-					<input
-						type="text"
-						name="username"
-						id="username"
-						value={username}
-						placeholder="Enter your username"
-						className={formControl}
-						onChange={onChange}
-					/>
-				</div>
-				<div className="w-full">
-					<input
-						type="text"
-						name="email"
-						id="email"
-						value={email}
-						placeholder="Enter your email address"
-						className={formControl}
-						onChange={onChange}
-					/>
-				</div>
-				<div className="w-full relative">
-					<input
-						type={showPassword1 ? "text" : "password"}
-						name="password"
-						id="password"
-						value={password}
-						placeholder="Enter your password"
-						className={formControl}
-						onChange={onChange}
-					/>
-					{showPassword1 ? (
-						<FaEye
-							className="absolute top-3 right-3 cursor-pointer text-slate-700 text-xl  transition-opacity hover:opacity-90"
-							onClick={revealPassword1}
-						></FaEye>
-					) : (
-						<FaEyeSlash
-							className="absolute top-3 right-3 cursor-pointer text-slate-700 text-xl  transition-opacity hover:opacity-90"
-							onClick={revealPassword1}
-						></FaEyeSlash>
-					)}
-				</div>
-				<div className="w-full relative">
-					<input
-						type={showPassword2 ? "text" : "password"}
-						name="password2"
-						id="password2"
-						value={password2}
-						placeholder="Confirm your password"
-						className={formControl}
-						onChange={onChange}
-					/>
-					{showPassword2 ? (
-						<FaEye
-							className="absolute top-3 right-3 cursor-pointer text-slate-700 text-xl  transition-opacity hover:opacity-90"
-							onClick={revealPassword2}
-						></FaEye>
-					) : (
-						<FaEyeSlash
-							className="absolute top-3 right-3 cursor-pointer text-slate-700 text-xl  transition-opacity hover:opacity-90"
-							onClick={revealPassword2}
-						></FaEyeSlash>
-					)}
-				</div>
-				<button
-					type="submit"
-					onClick={onSubmit}
-					className="border-[1px] bg-slate-950 text-slate-200 p-2 font-bold text-xl transition-colors hover:bg-slate-900 text-center"
-				>
-					Submit
-				</button>
-			</form>
+			{loading ? (
+				<PuffLoader />
+			) : (
+				<RegisterForm
+					username={username}
+					email={email}
+					password={password}
+					password2={password2}
+					showPassword1={showPassword1}
+					showPassword2={showPassword2}
+					handleChange={handleChange}
+					handleSubmit={handleSubmit}
+					revealPassword1={revealPassword1}
+					revealPassword2={revealPassword2}
+				/>
+			)}
 		</div>
 	);
 }
