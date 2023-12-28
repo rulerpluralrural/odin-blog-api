@@ -1,8 +1,14 @@
-import { FaBlog, FaSignInAlt, FaUserAlt, FaSignOutAlt } from "react-icons/fa";
+import {
+	FaBlog,
+	FaSignInAlt,
+	FaUserAlt,
+	FaSignOutAlt,
+	FaUserCircle,
+} from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-export default function Navbar({ isLoggedIn, setLoading }) {
+export default function Navbar({ user, setLoading, setUser }) {
 	const navigate = useNavigate();
 	const logOut = async () => {
 		setLoading(true);
@@ -10,9 +16,10 @@ export default function Navbar({ isLoggedIn, setLoading }) {
 			method: "POST",
 			credentials: "include",
 		});
-			setLoading(false);
-			toast.success("You have logged out!");
-			navigate("/");
+		setLoading(false);
+		setUser(null);
+		toast.success("You have logged out!");
+		navigate("/");
 	};
 
 	return (
@@ -23,30 +30,42 @@ export default function Navbar({ isLoggedIn, setLoading }) {
 					BLOG API
 				</Link>
 			</div>
-			<nav className="px-10 py-8">
-				<ul className="flex justify-between items-center gap-10 font-bold text-xl">
-					{isLoggedIn ? (
-						<li>
-							<button className="flex items-center gap-2" onClick={logOut}>
-								<FaSignOutAlt></FaSignOutAlt>Logout
-							</button>
-						</li>
-					) : (
-						<>
-							<li>
-								<Link to="/blog/login" className="flex items-center gap-2">
-									<FaSignInAlt></FaSignInAlt>LOGIN
-								</Link>
-							</li>
-							<li>
-								<Link to="/blog/sign-up" className="flex items-center gap-2">
-									<FaUserAlt></FaUserAlt>REGISTER
-								</Link>
-							</li>
-						</>
-					)}
-				</ul>
-			</nav>
+			<NavLinks user={user} logOut={logOut} />
 		</div>
 	);
 }
+
+const NavLinks = ({ user, logOut }) => {
+	return (
+		<nav className="px-10 py-8">
+			<div className="flex justify-between items-center gap-10 font-bold text-xl">
+				{user ? (
+					<>
+						<button className="flex items-center gap-2" onClick={logOut}>
+							<FaSignOutAlt></FaSignOutAlt>Logout
+						</button>
+						<div>
+							<Link to={`/author/${user._id}`} className="flex items-center gap-2">
+								<FaUserCircle></FaUserCircle>
+								{user.username}
+							</Link>
+						</div>
+					</>
+				) : (
+					<>
+						<div>
+							<Link to="/blog/login" className="flex items-center gap-2">
+								<FaSignInAlt></FaSignInAlt>LOGIN
+							</Link>
+						</div>
+						<div>
+							<Link to="/blog/sign-up" className="flex items-center gap-2">
+								<FaUserAlt></FaUserAlt>REGISTER
+							</Link>
+						</div>
+					</>
+				)}
+			</div>
+		</nav>
+	);
+};

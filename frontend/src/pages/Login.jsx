@@ -5,7 +5,7 @@ import LoginForm from "../components/LoginForm";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-export default function Login({setMessage}) {
+export default function Login({setMessage, setUser}) {
 	const [formData, setFormData] = useState({
 		username: "",
 		password: "",
@@ -40,6 +40,7 @@ export default function Login({setMessage}) {
 			setMessage(true);
 
 			if (data.token) {
+				setUser(data.user)
 				navigate("/");
 				toast.success("Successfully logged in!");
 			} else {

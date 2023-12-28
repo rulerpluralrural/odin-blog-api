@@ -39,7 +39,7 @@ export default {
 
 		res
 			.status(StatusCodes.OK)
-			.json({ user: { username: user.username }, token });
+			.json({ user: { username: user.username, id: user._id }, token });
 	}),
 
 	// Handle sign-up on POST
@@ -119,8 +119,6 @@ export default {
 
 	// Check user session
 	check_user_session: asyncHandler(async (req, res) => {
-		res
-			.status(StatusCodes.OK)
-			.json({ isLoggedIn: req.session.token !== undefined });
+		res.status(StatusCodes.OK).json({ user: req.user });
 	}),
 };

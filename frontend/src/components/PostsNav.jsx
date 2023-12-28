@@ -3,8 +3,9 @@ import React, { useState } from "react";
 const PostNav = () => {
 	const [activeButton, setActiveButton] = useState("All");
 	const buttons = ["All", "Newest", "Oldest", "Most Commented"];
+
 	return (
-		<div className="flex w-full gap-5 border-b-2 border-slate-300">
+		<div className="flex w-full gap-7 border-b-2 border-slate-200">
 			{buttons.map((button, index) => {
 				return (
 					<button
@@ -13,7 +14,7 @@ const PostNav = () => {
 						value={button}
 						className={`${
 							activeButton === button
-								? "text-black font-medium"
+								? "text-black font-medium underline"
 								: "text-slate-600"
 						} font-sans text-xl tracking-tight py-2 `}
 						onClick={() => setActiveButton(button)}

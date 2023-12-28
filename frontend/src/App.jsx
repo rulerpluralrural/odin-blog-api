@@ -10,7 +10,7 @@ import PuffLoader from "react-spinners/PuffLoader";
 
 export default function App() {
 	const [message, setMessage] = useState(false);
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
@@ -21,24 +21,24 @@ export default function App() {
 					credentials: "include",
 				}
 			).then((res) => res.json());
-			setIsLoggedIn(response.isLoggedIn);
+			setUser(response.user);
 		};
 		getSession();
-	});
-
+	},[]);
+	console.log(user)
 	return (
 		<div className="flex flex-col h-screen">
-			<Navbar isLoggedIn={isLoggedIn} setLoading={setLoading} />
+			<Navbar user={user} setLoading={setLoading} setUser={setUser}/>
 			{loading ? (
 				<div  className="flex flex-1 items-center justify-center">
 					<PuffLoader size={150} />
 				</div>
 			) : (
 				<Routes>
-					<Route path="/" element={<Home isLoggedIn={isLoggedIn} />}></Route>
+					<Route path="/" element={<Home user={user} />}></Route>
 					<Route
 						path="/blog/login"
-						element={<Login setMessage={setMessage} />}
+						element={<Login setMessage={setMessage} setUser={setUser}/>}
 					></Route>
 					<Route
 						path="/blog/sign-up"

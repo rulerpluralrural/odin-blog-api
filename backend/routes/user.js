@@ -14,8 +14,9 @@ router.post("/login", userController.login_post);
 router.post("/sign-up", userController.sign_up_post);
 
 // POST Route for logout
-router.post("/logout", userController.logout);
+router.post("/logout", authenticateUser, userController.logout);
 
 // Get Route for session
-router.get("/auth/session", userController.check_user_session)
+router.get("/auth/session", authenticateUser, userController.check_user_session)
+
 export default router;
