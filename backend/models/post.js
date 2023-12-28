@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
+import { DateTime } from "luxon";
+
 const PostSchema = new Schema(
 	{
 		title: {
@@ -16,24 +18,22 @@ const PostSchema = new Schema(
 			ref: "User",
 			required: [true, "Author is required"],
 		},
-		comments: {
-			type: Array,
-			default: [],
-		},
 		published: {
 			type: Boolean,
 			default: false,
 		},
-		likes: {
-			type: Array,
-			default: [],
-		},
+		imgURL: {
+			type: String,
+			default: "https://placehold.co/600x400"
+		}
 	},
-	{ timeStamps: true }
+	{ timestamps: true }
 );
 
 PostSchema.virtual("date_formatted").get(function () {
 	return DateTime.fromJSDate(this.createdAt).toLocaleString(DateTime.DATE_MED);
 });
+
+PostSchema.set("toJSON", { virtuals: true });
 
 export default mongoose.model("Post", PostSchema);

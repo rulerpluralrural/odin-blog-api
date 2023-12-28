@@ -1,6 +1,8 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
+import {DateTime} from "luxon"
+
 const CommentSchema = new Schema(
 	{
 		user: {
@@ -18,11 +20,13 @@ const CommentSchema = new Schema(
 			required: [true, "Comment is required"],
 		},
 	},
-	{ timeStamps: true }
+	{ timestamps: true }
 );
 
 CommentSchema.virtual("date_formatted").get(function () {
 	return DateTime.fromJSDate(this.createdAt).toLocaleString(DateTime.DATE_MED);
 });
+
+CommentSchema.set("toJSON", { virtuals: true });
 
 export default mongoose.model("Comment", CommentSchema);

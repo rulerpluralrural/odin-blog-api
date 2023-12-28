@@ -27,6 +27,7 @@ export default {
 				content: req.body.content,
 				author: req.user._id,
 				published: req.body.published,
+				imgURL: req.body.imgURL
 			});
 
 			// console.log(req.user);
@@ -52,7 +53,7 @@ export default {
 
 	// GET request for all posts
 	get_posts: asyncHandler(async (req, res) => {
-		const posts = await Post.find({}).exec();
+		const posts = await Post.find({}).populate("author", "username").sort([['createdAt', -1]]).exec();
 
 		if (!posts) {
 			throw new NotFoundError(`There are no posts!`);

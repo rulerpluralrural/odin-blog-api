@@ -8,10 +8,10 @@ import authenticateUser from "../middlewares/auth.js";
 router.post("/posts", authenticateUser, postController.create_post);
 
 // GET route for all posts
-router.get("/posts", authenticateUser, postController.get_posts);
+router.get("/posts", postController.get_posts);
 
 // GET route for a single post
-router.get("/posts/:id", authenticateUser, postController.get_post);
+router.get("/posts/:id", postController.get_post);
 
 // PUT route for a post
 router.put("/posts/:id", authenticateUser, postController.update_post);
