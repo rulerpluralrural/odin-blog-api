@@ -1,4 +1,5 @@
 import Post from "../models/post.js";
+import Comments from "../models/comment.js";
 import asyncHandler from "express-async-handler";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
@@ -27,7 +28,7 @@ export default {
 				content: req.body.content,
 				author: req.user._id,
 				published: req.body.published,
-				imgURL: req.body.imgURL
+				imgURL: req.body.imgURL,
 			});
 
 			// console.log(req.user);
@@ -42,7 +43,7 @@ export default {
 		const postId = req.params.id;
 
 		const post = await Post.findOne({ _id: postId }).populate("author").exec();
-		console.log(req.session)
+		console.log(req.session);
 
 		if (!post) {
 			throw new NotFoundError(`No post with the id ${postId}`);
@@ -53,13 +54,13 @@ export default {
 
 	// GET request for all posts
 	get_posts: asyncHandler(async (req, res) => {
-		const posts = await Post.find({}).populate("author", "username").sort([['createdAt', -1]]).exec();
+		const posts = await Post.find().populate("author", "username").populate("comments").exec();
 
 		if (!posts) {
 			throw new NotFoundError(`There are no posts!`);
 		}
 
-		res.status(StatusCodes.OK).json({ posts });
+		res.status(StatusCodes.OK).json({ posts: posts});
 	}),
 
 	// POST request for post update
@@ -103,7 +104,7 @@ export default {
 	delete_post: asyncHandler(async (req, res) => {
 		const postId = req.params.id;
 		const post = await Post.findByIdAndDelete({ _id: postId });
-		
+
 		if (!post) {
 			throw new NotFoundError(`No post with this id ${postId}`);
 		}

@@ -25,7 +25,7 @@ export default function App() {
 		};
 		getSession();
 	},[]);
-	console.log(user)
+
 	return (
 		<div className="flex flex-col h-screen">
 			<Navbar user={user} setLoading={setLoading} setUser={setUser}/>

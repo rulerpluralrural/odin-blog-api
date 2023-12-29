@@ -41,15 +41,20 @@ const NavLinks = ({ user, logOut }) => {
 			<div className="flex justify-between items-center gap-10 font-bold text-xl">
 				{user ? (
 					<>
-						<button className="flex items-center gap-2" onClick={logOut}>
+						<button
+							type="button"
+							className="flex items-center gap-2"
+							onClick={logOut}
+						>
 							<FaSignOutAlt></FaSignOutAlt>Logout
 						</button>
-						<div>
-							<Link to={`/author/${user._id}`} className="flex items-center gap-2">
-								<FaUserCircle></FaUserCircle>
-								{user.username}
-							</Link>
-						</div>
+						<Link
+							to={`/author/${user.id}`}
+							className="flex items-center gap-2"
+						>
+							<FaUserCircle></FaUserCircle>
+							{user.username}
+						</Link>
 					</>
 				) : (
 					<>
