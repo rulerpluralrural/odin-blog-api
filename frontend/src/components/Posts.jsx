@@ -5,6 +5,7 @@ import {
 	FaRegComment,
 	FaRegThumbsUp,
 } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 const Posts = ({ posts, user }) => {
 	return (
@@ -61,6 +62,12 @@ const PostCardHeader = ({ post, user }) => {
 };
 
 const PostCardContent = ({ post }) => {
+	const navigate = useNavigate();
+
+	const redirectToPost = () => {
+		return navigate(`/posts/${post._id}`);
+	};
+	
 	return (
 		<div className="flex flex-col gap-1 py-3">
 			<div className="flex justify-between items-center text-lg pr-3">
@@ -85,6 +92,7 @@ const PostCardContent = ({ post }) => {
 			<button
 				type="button"
 				className="flex items-center justify-center gap-1 bg-red-700 text-white px-3 py-1 w-full rounded-sm hover:bg-red-800 focus:bg-red-800 transition-colors mt-2"
+				onClick={redirectToPost}
 			>
 				<FaAngleDoubleRight /> Read Full Article
 			</button>
