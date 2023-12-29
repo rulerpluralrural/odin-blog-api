@@ -6,7 +6,7 @@ const PostHeader = ({ post, user }) => {
 	return (
 		<div className="flex flex-col items-center bg-slate-100 gap-3 pb-7">
 			<Link to={`/posts/${post.id}`} className="text-3xl font-serif font-bold hover:animate-pulse focus:animate-pulse">
-				{post.title}
+				Featured Blog: {post.title}
 			</Link>
 			{user ? (
 				<p className="text-lg">Created by: <Link to={`/author/${post.author._id}`} className="text-blue-800 font-medium hover:underline focus:underline">@{post.author.username}</Link></p>

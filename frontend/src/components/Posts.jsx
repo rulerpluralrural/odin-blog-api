@@ -41,7 +41,7 @@ const PostCardHeader = ({ post, user }) => {
 				</div>
 				<div className="text-right">
 					{user ? (
-						<p className="italic">{post.date_formatted}</p>
+						<p className="italic text-sm">Date Posted: {post.date_formatted}</p>
 					) : (
 						<small className="text-red-700 font-semibold text-center">
 							(Login to view timestamp!)
