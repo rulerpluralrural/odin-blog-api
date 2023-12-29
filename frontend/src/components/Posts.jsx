@@ -1,6 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { FaAngleDoubleRight, FaRegComment, FaRegThumbsUp } from "react-icons/fa";
+import {
+	FaAngleDoubleRight,
+	FaRegComment,
+	FaRegThumbsUp,
+} from "react-icons/fa";
 
 const Posts = ({ posts, user }) => {
 	return (
@@ -30,7 +34,10 @@ const PostCardHeader = ({ post, user }) => {
 			<div className="py-1 flex justify-between border-b-[1px] border-slate-400">
 				<div>
 					{user ? (
-						<Link to={`/author/${post.author._id}`} className="text-blue-800 font-semibold hover:underline focus:underline">
+						<Link
+							to={`/author/${post.author._id}`}
+							className="text-blue-800 font-semibold hover:underline focus:underline"
+						>
 							@{post.author.username}
 						</Link>
 					) : (
@@ -55,18 +62,32 @@ const PostCardHeader = ({ post, user }) => {
 
 const PostCardContent = ({ post }) => {
 	return (
-		<div className="flex flex-col gap-1">
-			<div className="flex justify-between items-center pr-6 text-lg">
-				<Link to={`/posts/${post._id}`} className="font-bold font-serif text-lg hover:animate-pulse focus:animate-pulse">
-				{post.title} 
-			</Link>
-			<div>
-				<FaRegThumbsUp></FaRegThumbsUp>
-				<FaRegComment></FaRegComment>
-			</div>
+		<div className="flex flex-col gap-1 py-3">
+			<div className="flex justify-between items-center text-lg pr-3">
+				<Link
+					to={`/posts/${post._id}`}
+					className="font-bold font-serif text-lg hover:animate-pulse focus:animate-pulse"
+				>
+					{post.title}
+				</Link>
+				<div className="flex gap-3 items-center">
+					<div className="flex items-center gap-1">
+						<FaRegThumbsUp></FaRegThumbsUp>
+						<p>{post.likes.length}</p>
+					</div>
+					<div className="flex items-center gap-1">
+						<FaRegComment></FaRegComment>
+						<p className="mb-[1px]">{post.comments.length}</p>
+					</div>
+				</div>
 			</div>
 			<p className="text-justify">{post.content}</p>
-            <button type="button" className="flex items-center justify-center gap-1 bg-red-700 text-white px-3 py-1 w-full rounded-sm hover:bg-red-800 focus:bg-red-800 transition-colors mt-2"><FaAngleDoubleRight/> Read Full Article</button>
+			<button
+				type="button"
+				className="flex items-center justify-center gap-1 bg-red-700 text-white px-3 py-1 w-full rounded-sm hover:bg-red-800 focus:bg-red-800 transition-colors mt-2"
+			>
+				<FaAngleDoubleRight /> Read Full Article
+			</button>
 		</div>
 	);
 };

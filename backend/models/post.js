@@ -40,6 +40,12 @@ PostSchema.virtual("comments", {
 	foreignField: "post",
 });
 
+PostSchema.virtual("likes", {
+	ref: "PostLikes",
+	localField: "_id",
+	foreignField: "post"
+})
+
 PostSchema.set("toJSON", { virtuals: true });
 
 export default mongoose.model("Post", PostSchema);

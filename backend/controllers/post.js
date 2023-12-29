@@ -1,5 +1,6 @@
 import Post from "../models/post.js";
 import Comments from "../models/comment.js";
+import PostLikes from "../models/postLikes.js";
 import asyncHandler from "express-async-handler";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
@@ -54,13 +55,17 @@ export default {
 
 	// GET request for all posts
 	get_posts: asyncHandler(async (req, res) => {
-		const posts = await Post.find().populate("author", "username").populate("comments").exec();
+		const posts = await Post.find()
+			.populate("author", "username")
+			.populate("comments")
+			.populate("likes")
+			.exec();
 
 		if (!posts) {
 			throw new NotFoundError(`There are no posts!`);
 		}
 
-		res.status(StatusCodes.OK).json({ posts: posts});
+		res.status(StatusCodes.OK).json({ posts: posts });
 	}),
 
 	// POST request for post update
