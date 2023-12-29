@@ -7,17 +7,17 @@ import {
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 
-const PostHeader = ({ post, user }) => {
+const PostsHeader = ({ post, user }) => {
 	const navigate = useNavigate();
 
 	const redirectToPost = () => {
-		return navigate(`/posts/${post._id}`);
+		return navigate(`/blog/posts/${post._id}`);
 	};
 
 	return (
 		<div className="flex flex-col items-center bg-slate-100 gap-3 pb-7">
 			<Link
-				to={`/posts/${post.id}`}
+				to={`/blog/posts/${post.id}`}
 				className="text-3xl font-serif font-bold hover:animate-pulse focus:animate-pulse"
 			>
 				Featured Blog: {post.title}
@@ -56,7 +56,11 @@ const PostHeader = ({ post, user }) => {
 					<p className="mb-[1px]">{post.comments.length}</p>
 				</div>
 			</div>
-			<p className="text-center w-1/3">{post.content}</p>
+			<p className="text-center w-1/3">
+				{post.content.length > 250
+					? post.content.substring(0, 250) + "..."
+					: post.content}
+			</p>
 			<button
 				className="flex gap-2 items-center bg-red-700 text-white px-2 py-1 text-lg hover:bg-red-800 focus:bg-red-800 transition-colors rounded-sm"
 				onClick={redirectToPost}
@@ -68,4 +72,4 @@ const PostHeader = ({ post, user }) => {
 	);
 };
 
-export default PostHeader;
+export default PostsHeader;

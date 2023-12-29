@@ -43,8 +43,17 @@ export default {
 	get_post: asyncHandler(async (req, res) => {
 		const postId = req.params.id;
 
-		const post = await Post.findOne({ _id: postId }).populate("author").exec();
-		console.log(req.session);
+		const post = await Post.findOne({ _id: postId })
+			.populate("author", "username")
+			.populate({
+				path: "comments",
+				populate: {
+					path: "user",
+					select: "username",
+				},
+			})
+			.populate("likes")
+			.exec();
 
 		if (!post) {
 			throw new NotFoundError(`No post with the id ${postId}`);

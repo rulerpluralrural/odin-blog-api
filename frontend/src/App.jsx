@@ -3,7 +3,7 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import Post from "./pages/Post"
+import Post from "./pages/Post";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
@@ -37,7 +37,7 @@ export default function App() {
 			) : (
 				<Routes>
 					<Route path="/blog" element={<Home user={user} />}></Route>
-					<Route path="/blog/posts/:id" element={<Post></Post>}></Route>
+					<Route path="/blog/posts/:id" element={<Post />}></Route>
 					<Route
 						path="/blog/login"
 						element={<Login setMessage={setMessage} setUser={setUser} />}

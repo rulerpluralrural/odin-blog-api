@@ -65,14 +65,14 @@ const PostCardContent = ({ post }) => {
 	const navigate = useNavigate();
 
 	const redirectToPost = () => {
-		return navigate(`/posts/${post._id}`);
+		return navigate(`/blog/posts/${post._id}`);
 	};
-	
+
 	return (
 		<div className="flex flex-col gap-1 py-3">
 			<div className="flex justify-between items-center text-lg pr-3">
 				<Link
-					to={`/posts/${post._id}`}
+					to={`/blog/posts/${post._id}`}
 					className="font-bold font-serif text-lg hover:animate-pulse focus:animate-pulse"
 				>
 					{post.title}
@@ -88,7 +88,11 @@ const PostCardContent = ({ post }) => {
 					</div>
 				</div>
 			</div>
-			<p className="text-justify">{post.content}</p>
+			<p className="text-justify">
+				{post.content.length > 200
+					? post.content.substring(0, 200) + "..."
+					: post.content}
+			</p>
 			<button
 				type="button"
 				className="flex items-center justify-center gap-1 bg-red-700 text-white px-3 py-1 w-full rounded-sm hover:bg-red-800 focus:bg-red-800 transition-colors mt-2"
