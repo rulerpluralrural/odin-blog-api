@@ -2,17 +2,12 @@ import React, { useEffect, useState } from "react";
 
 const PostNav = ({ posts, setPosts }) => {
 	const [activeButton, setActiveButton] = useState("All");
-	const buttons = ["All", "Newest", "Oldest", "Most Commented"];
+	const buttons = ["All", "Newest", "Oldest", "Most Commented", "Most Liked"];
 
 	useEffect(() => {
 		switch (activeButton) {
 			case "All":
-				setPosts([
-					...posts.sort(
-						(postA, postB) =>
-							postA.title > postB.title
-					),
-				]);
+				setPosts([...posts.sort((postA, postB) => postA.title > postB.title)]);
 				break;
 			case "Newest":
 				setPosts([
@@ -32,6 +27,19 @@ const PostNav = ({ posts, setPosts }) => {
 					),
 				]);
 				break;
+			case "Most Commented":
+				setPosts([
+					...posts.sort(
+						(postA, postB) => postB.comments.length - postA.comments.length
+					),
+				]);
+				break;
+			case "Most Liked":
+				setPosts([
+					...posts.sort(
+						(postA, postB) => postB.likes.length - postA.likes.length
+					),
+				]);
 		}
 		if (activeButton === "Newest") {
 		}

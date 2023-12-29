@@ -26,7 +26,7 @@ export default function Navbar({ user, setLoading, setUser }) {
 		<div className=" flex justify-between items-center bg-slate-100 text-slate-950 font-serif">
 			<div className=" flex justify-between gap-2 px-10 py-8 text-2xl">
 				<FaBlog></FaBlog>
-				<Link to="/" className=" font-bold">
+				<Link to="/blog" className=" font-bold">
 					BLOG API
 				</Link>
 			</div>

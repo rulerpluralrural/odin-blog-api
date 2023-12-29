@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Post from "./pages/Post"
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useEffect, useState } from "react";
@@ -24,21 +25,22 @@ export default function App() {
 			setUser(response.user);
 		};
 		getSession();
-	},[]);
+	}, []);
 
 	return (
 		<div className="flex flex-col h-screen">
-			<Navbar user={user} setLoading={setLoading} setUser={setUser}/>
+			<Navbar user={user} setLoading={setLoading} setUser={setUser} />
 			{loading ? (
-				<div  className="flex flex-1 items-center justify-center">
+				<div className="flex flex-1 items-center justify-center">
 					<PuffLoader size={150} />
 				</div>
 			) : (
 				<Routes>
-					<Route path="/" element={<Home user={user} />}></Route>
+					<Route path="/blog" element={<Home user={user} />}></Route>
+					<Route path="/blog/posts/:id" element={<Post></Post>}></Route>
 					<Route
 						path="/blog/login"
-						element={<Login setMessage={setMessage} setUser={setUser}/>}
+						element={<Login setMessage={setMessage} setUser={setUser} />}
 					></Route>
 					<Route
 						path="/blog/sign-up"

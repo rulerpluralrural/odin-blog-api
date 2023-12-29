@@ -24,8 +24,8 @@ export default function Home({ user }) {
 		};
 		fetchData();
 	}, []);
-	
-	console.log(posts);
+
+	// console.log(posts);
 
 	if (loading || posts === null) {
 		return (
