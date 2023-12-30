@@ -22,6 +22,10 @@ const PostSchema = new Schema(
 			type: Boolean,
 			default: false,
 		},
+		featured: {
+			type:Boolean,
+			default: false,
+		},
 		imgURL: {
 			type: String,
 			default: "https://placehold.co/600x400",

@@ -6,6 +6,7 @@ import PostsNav from "../components/HomePage/PostsNav";
 
 export default function Home({ user }) {
 	const [posts, setPosts] = useState(null);
+	const [featuredPost, setFeaturedPost] = useState(null)
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
@@ -16,6 +17,7 @@ export default function Home({ user }) {
 					(res) => res.json()
 				);
 				setPosts(data.posts.filter((post) => post.published));
+				setFeaturedPost(data.posts.find((post) => post.featured))
 				setLoading(false);
 			} catch (error) {
 				console.log(error);
@@ -40,7 +42,7 @@ export default function Home({ user }) {
 
 	return (
 		<div className="flex flex-col h-full">
-			<HomeHeader post={posts[0]} user={user} />
+			<HomeHeader post={featuredPost} user={user} />
 			<div className="px-52 flex flex-col gap-10 mt-20">
 				<PostsNav posts={posts} setPosts={setPosts} />
 				<div className="grid grid-cols-3 gap-20 pb-20">

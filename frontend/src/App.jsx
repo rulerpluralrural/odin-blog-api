@@ -39,27 +39,25 @@ export default function App() {
 			) : (
 				<Routes>
 					<Route path="/blog" element={<Home user={user} />}></Route>
-					<Route path="/blog/posts/:id" element={<Post user={user}/>}></Route>
+					<Route path="/blog/posts/:id" element={<Post user={user} />}></Route>
 					<Route
 						path="/blog/login"
-						element={<Login setMessage={setMessage} setUser={setUser} />}
+						element={<Login setUser={setUser} />}
 					></Route>
 					<Route
 						path="/blog/sign-up"
-						element={<Register setMessage={setMessage} />}
+						element={<Register />}
 					></Route>
 				</Routes>
 			)}
-			{message && (
-				<ToastContainer
-					position="bottom-left"
-					newestOnTop={true}
-					closeOnClick={true}
-					pauseOnHover={true}
-					draggable={false}
-					theme="colored"
-				/>
-			)}
+			<ToastContainer
+				position="bottom-left"
+				newestOnTop={true}
+				closeOnClick={true}
+				pauseOnHover={true}
+				draggable={false}
+				theme="colored"
+			/>
 		</div>
 	);
 }

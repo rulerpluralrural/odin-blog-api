@@ -5,7 +5,7 @@ import LoginForm from "../components/LoginPage/LoginForm";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-export default function Login({setMessage, setUser}) {
+export default function Login({ setMessage, setUser }) {
 	const [formData, setFormData] = useState({
 		username: "",
 		password: "",
@@ -37,18 +37,19 @@ export default function Login({setMessage, setUser}) {
 				return res.json();
 			});
 			setLoading(false);
-			setMessage(true);
+
+			let notify;
 
 			if (data.token) {
-				setUser(data.user)
+				setUser(data.user);
 				navigate("/blog");
-				toast.success("Successfully logged in!");
+				notify = toast.success("Successfully logged in!");
 			} else {
-				toast.error(data.message);
+				notify = toast.error(data.message);
 			}
 
 			setTimeout(() => {
-				setMessage(false);
+				toast.dismiss(notify);
 			}, 8000);
 		} catch (error) {
 			setLoading(false);

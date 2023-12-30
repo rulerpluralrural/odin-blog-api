@@ -5,7 +5,7 @@ import PuffLoader from "react-spinners/PuffLoader";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-export default function Login({ setMessage }) {
+export default function Login() {
 	const [formData, setFormData] = useState({
 		username: "",
 		email: "",
@@ -40,23 +40,24 @@ export default function Login({ setMessage }) {
 				return res.json();
 			});
 			setLoading(false);
-			setMessage(true);
+
+			let notify;
 
 			if (data.token) {
 				navigate("/blog/login");
-				toast.success("Successfully registered!");
+				notify = toast.success("Successfully registered!");
 			} else {
 				if (data.messages) {
 					data.messages.forEach((message) => {
-						toast.error(message.msg);
+						notify = toast.error(message.msg);
 					});
 				} else {
-					toast.error(data.message);
+					notify = toast.error(data.message);
 				}
 			}
 			// console.log(data);
 			setTimeout(() => {
-				setMessage(false);
+				toast.dismiss(notify)
 			}, 5000);
 		} catch (error) {
 			setLoading(false);

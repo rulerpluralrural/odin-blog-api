@@ -33,7 +33,7 @@ const PostDetails = ({ post, user }) => {
 						className=" rounded-md"
 					/>
 					<div className="flex justify-between py-2 px-1">
-						<div className="flex items-center gap-1 text-blue-900 hover:underline focus:underline">
+						<div className="flex items-center gap-1">
 							<FaAt></FaAt>
 							<p>{post.author.username}</p>
 						</div>

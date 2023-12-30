@@ -18,7 +18,10 @@ export default function Navbar({ user, setLoading, setUser }) {
 		});
 		setLoading(false);
 		setUser(null);
-		toast.success("You have logged out!");
+		const notify = toast.success("You have logged out!");
+		setTimeout(() => {
+			toast.dismiss(notify)
+		}, 5000);
 		navigate("/blog/login");
 	};
 
