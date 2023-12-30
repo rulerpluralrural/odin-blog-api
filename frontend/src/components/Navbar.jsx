@@ -46,11 +46,11 @@ const NavLinks = ({ user, logOut }) => {
 							className="flex items-center gap-2"
 							onClick={logOut}
 						>
-							<FaSignOutAlt></FaSignOutAlt>Logout
+							<FaSignOutAlt></FaSignOutAlt>LOGOUT
 						</button>
 						<Link
-							to={`/author/${user.id}`}
-							className="flex items-center gap-2"
+							to={`/blog//author/${user._id}`}
+							className="flex items-center gap-2 uppercase"
 						>
 							<FaUserCircle></FaUserCircle>
 							{user.username}

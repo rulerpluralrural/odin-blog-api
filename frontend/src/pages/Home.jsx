@@ -1,8 +1,8 @@
 import { React, useEffect, useState } from "react";
-import Posts from "../components/Posts";
-import PostsHeader from "../components/PostsHeader";
+import Posts from "../components/HomePage/Posts";
+import HomeHeader from "../components/HomePage/HomeHeader";
 import PuffLoader from "react-spinners/PuffLoader";
-import PostsNav from "../components/PostsNav";
+import PostsNav from "../components/HomePage/PostsNav";
 
 export default function Home({ user }) {
 	const [posts, setPosts] = useState(null);
@@ -40,7 +40,7 @@ export default function Home({ user }) {
 
 	return (
 		<div className="flex flex-col h-full">
-			<PostsHeader post={posts[0]} user={user} />
+			<HomeHeader post={posts[0]} user={user} />
 			<div className="px-52 flex flex-col gap-10 mt-20">
 				<PostsNav posts={posts} setPosts={setPosts} />
 				<div className="grid grid-cols-3 gap-20 pb-20">

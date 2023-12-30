@@ -1,18 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaAt, FaRegClock, FaRegUser } from "react-icons/fa";
+import { FaAt, FaRegClock, FaRegThumbsUp, FaRegUser } from "react-icons/fa";
 
 const PostContent = ({ post, user }) => {
 	return (
 		<>
-			<PostDetails post={post} />
+			<PostDetails post={post} user={user}/>
 			<PostForm user={user} />
 			{post.comments.length === 0 ? (
 				<div className="self-center py-10">
-					<p className="font-semibold">There are no comments yet on this post!</p>
+					<p className="font-semibold">
+						There are no comments yet on this post!
+					</p>
 				</div>
 			) : (
-				<PostComments post={post} />
+				<PostComments post={post} user={user}/>
 			)}
 		</>
 	);
@@ -20,12 +22,12 @@ const PostContent = ({ post, user }) => {
 
 const PostDetails = ({ post }) => {
 	return (
-		<div className="grid grid-cols-[600px_1fr] place-items-center bg-slate-100 text-center py-10 px-32">
+		<div className="grid grid-cols-1 lg:grid-cols-[600px_1fr] place-items-center bg-slate-100 text-center py-10 gap-2 px-0 lg:px-10 xl:px-32">
 			<div className="flex flex-col items-center">
 				<h1 className="font-serif font-semibold text-2xl p-3 underline">
 					{post.title}
 				</h1>
-				<div>
+				<div className="w-full">
 					<img
 						src={post.imgURL}
 						alt={`${post.title} image`}
@@ -34,7 +36,9 @@ const PostDetails = ({ post }) => {
 					<div className="flex justify-between py-2 px-1">
 						<div className="flex items-center gap-1 text-blue-900 hover:underline focus:underline">
 							<FaAt></FaAt>
-							<Link to={`/blog/author/:id`}>{post.author.username}</Link>
+							<Link to={`/blog/author/${post.author._id}`}>
+								{post.author.username}
+							</Link>
 						</div>
 						<div className="flex items-center gap-1 italic">
 							<FaRegClock></FaRegClock>
@@ -44,17 +48,25 @@ const PostDetails = ({ post }) => {
 				</div>
 				<hr className="border-[1px] border-slate-300 w-full" />
 			</div>
-			<div>
+			<div className="flex flex-col justify-center px-10 xl:px-20">
 				<p className="text-center first-letter:font-bold first-letter:text-4xl first-letter:font-serif">
 					{post.content}
 				</p>
+				<div className="flex flex-col items-center justify-center gap-1 font-serif text-lg mt-5">
+					<p>Did you enjoy this post?</p>
+					<div className="flex items-center justify-center">
+						<p className="mr-2">Leave a like:</p>
+						<FaRegThumbsUp className=" cursor-pointer hover:animate-bounce hover:text-blue-800 focus:animate-bounce focus-within:text-blue-800 text-2xl" />
+						<p className="ml-1 font-bold">{post.likes.length}</p>
+					</div>
+				</div>
 			</div>
 		</div>
 	);
 };
 
 const PostForm = ({ user }) => {
-	if (user === null) {
+	if (!user) {
 		return (
 			<div className="p-5 mt-6 flex self-center items-center justify-center w-[260px] border-[1px] border-green-400 rounded-md">
 				<p className="font-semibold">Login to leave a comment</p>

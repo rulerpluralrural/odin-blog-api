@@ -6,8 +6,9 @@ import {
 	FaRegComment,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import InfoText from "../InfoText";
 
-const PostsHeader = ({ post, user }) => {
+const HomeHeader = ({ post, user }) => {
 	const navigate = useNavigate();
 
 	const redirectToPost = () => {
@@ -33,9 +34,7 @@ const PostsHeader = ({ post, user }) => {
 					</Link>
 				</p>
 			) : (
-				<p className="text-sm font-semibold text-red-700">
-					(Login to see the author)
-				</p>
+				<InfoText />
 			)}
 			<div className="w-[450px]">
 				<img
@@ -72,4 +71,4 @@ const PostsHeader = ({ post, user }) => {
 	);
 };
 
-export default PostsHeader;
+export default HomeHeader;

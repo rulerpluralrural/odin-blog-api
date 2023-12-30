@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PuffLoader from "react-spinners/PuffLoader";
-import PostContent from "../components/PostContent";
+import PostContent from "../components/PostPage/PostContent";
 
-const Post = ({user}) => {
+const Post = ({ user }) => {
 	const { id } = useParams();
 	const [post, setPost] = useState(null);
 	const [loading, setLoading] = useState(false);
@@ -39,7 +39,7 @@ const Post = ({user}) => {
 
 	return (
 		<div className="flex flex-col">
-			<PostContent post={post} user={user}/>
+			<PostContent post={post} user={user} />
 		</div>
 	);
 };

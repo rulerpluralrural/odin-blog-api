@@ -6,6 +6,7 @@ import {
 	FaRegThumbsUp,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import InfoText from "../InfoText";
 
 const Posts = ({ posts, user }) => {
 	return (
@@ -42,18 +43,14 @@ const PostCardHeader = ({ post, user }) => {
 							@{post.author.username}
 						</Link>
 					) : (
-						<small className="text-red-700 font-semibold text-center">
-							(Login to view the author of this post!)
-						</small>
+						<InfoText />
 					)}
 				</div>
-				<div className="text-right">
+				<div>
 					{user ? (
 						<p className="italic text-sm">Date Posted: {post.date_formatted}</p>
 					) : (
-						<small className="text-red-700 font-semibold text-center">
-							(Login to view timestamp!)
-						</small>
+						<InfoText />
 					)}
 				</div>
 			</div>

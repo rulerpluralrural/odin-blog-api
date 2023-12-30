@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaBlog } from "react-icons/fa";
 import PuffLoader from "react-spinners/PuffLoader";
-import LoginForm from "../components/LoginForm";
+import LoginForm from "../components/LoginPage/LoginForm";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 

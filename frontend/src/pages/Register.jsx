@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { FaBlog } from "react-icons/fa";
-import RegisterForm from "../components/RegisterForm";
+import RegisterForm from "../components/RegisterPage/RegisterForm";
 import PuffLoader from "react-spinners/PuffLoader";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
