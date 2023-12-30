@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
 import { FaAt, FaRegClock, FaRegThumbsUp, FaRegUser } from "react-icons/fa";
-import InfoText from "../InfoText";
 
 const PostContent = ({ post, user }) => {
 	return (
@@ -35,24 +33,14 @@ const PostDetails = ({ post, user }) => {
 						className=" rounded-md"
 					/>
 					<div className="flex justify-between py-2 px-1">
-						{user ? (
-							<div className="flex items-center gap-1 text-blue-900 hover:underline focus:underline">
-								<FaAt></FaAt>
-								<Link to={`/blog/author/${post.author._id}`}>
-									{post.author.username}
-								</Link>
-							</div>
-						) : (
-							<InfoText />
-						)}
-						{user ? (
-							<div className="flex items-center gap-1 italic">
-								<FaRegClock></FaRegClock>
-								<p>{post.date_formatted}</p>
-							</div>
-						) : (
-							<InfoText />
-						)}
+						<div className="flex items-center gap-1 text-blue-900 hover:underline focus:underline">
+							<FaAt></FaAt>
+							<p>{post.author.username}</p>
+						</div>
+						<div className="flex items-center gap-1 italic">
+							<FaRegClock></FaRegClock>
+							<p>{post.date_formatted}</p>
+						</div>
 					</div>
 				</div>
 				<hr className="border-[1px] border-slate-300 w-full" />
@@ -95,10 +83,7 @@ const PostForm = ({ user }) => {
 					placeholder="Add a comment..."
 					className="w-full border-2 border-slate-300 rounded-sm p-2 h-28"
 				/>
-				<div className="flex gap-5 w-full items-center">
-					<p className="w-[270px] bg-green-200 px-2 py-1 rounded-sm">
-						Comment as: <strong>{user.username}</strong>
-					</p>
+				<div className=" w-full items-center">
 					<button
 						type="submit"
 						className="bg-red-700 text-white text-lg px-2 py-1 rounded-sm hover:bg-blue-600 transition-colors w-full"
@@ -111,45 +96,34 @@ const PostForm = ({ user }) => {
 	);
 };
 
-const PostComments = ({ post, user }) => {
+const PostComments = ({ post }) => {
 	return (
-		<>
-			{user ? (
-				<div className="flex flex-col self-center py-10 w-[600px]">
-					{post.comments.map((comment, index) => {
-						return (
-							<div
-								key={index}
-								className="grid grid-cols-[100px_1fr] gap-1 items-center mb-2 pb-2 border-b-[1px] border-slate-300"
-							>
-								<FaRegUser className="text-4xl w-full h-full p-5 rounded-sm border-[1px] border-slate-300" />
-								<div className="w-full flex flex-col mb-2 ">
-									<Link
-										to={`/blog/author/${comment.user._id}`}
-										className="font-bold font-serif text-blue-800"
-									>
-										{comment.user.username}
-									</Link>
-									<p className="py-1 flex-1">{comment.comment}</p>
-									<div className="flex gap-3 items-center">
-										<button type="button" className="text-blue-900">
-											Like
-										</button>
-										<div className="flex items-center gap-1">
-											<FaRegClock /> <em>{comment.date_formatted}</em>
-										</div>
-									</div>
+		<div className="flex flex-col self-center py-10 w-[600px]">
+			{post.comments.map((comment, index) => {
+				return (
+					<div
+						key={index}
+						className="grid grid-cols-[100px_1fr] gap-1 items-center mb-2 pb-2 border-b-[1px] border-slate-300"
+					>
+						<FaRegUser className="text-4xl w-full h-full p-5 rounded-sm border-[1px] border-slate-300" />
+						<div className="w-full flex flex-col mb-2 ">
+							<p className="font-bold font-serif text-blue-800">
+								{comment.user.username}
+							</p>
+							<p className="py-1 flex-1">{comment.comment}</p>
+							<div className="flex gap-3 items-center">
+								<button type="button" className="text-blue-900">
+									Like
+								</button>
+								<div className="flex items-center gap-1">
+									<FaRegClock /> <em>{comment.date_formatted}</em>
 								</div>
 							</div>
-						);
-					})}
-				</div>
-			) : (
-				<div className="p-5 mt-6 flex self-center items-center justify-center w-[270px] border-[1px] border-green-400 rounded-md">
-					<p className="font-semibold">Login to view the comments</p>
-				</div>
-			)}
-		</>
+						</div>
+					</div>
+				);
+			})}
+		</div>
 	);
 };
 

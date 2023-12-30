@@ -24,7 +24,8 @@ const Post = ({ user }) => {
 		};
 		fetchData();
 	}, []);
-	console.log(post);
+
+	// console.log(post);
 
 	if (loading || post === null) {
 		return (

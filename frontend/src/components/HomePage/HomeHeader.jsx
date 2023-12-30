@@ -6,7 +6,6 @@ import {
 	FaRegComment,
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import InfoText from "../InfoText";
 
 const HomeHeader = ({ post, user }) => {
 	const navigate = useNavigate();
@@ -23,19 +22,10 @@ const HomeHeader = ({ post, user }) => {
 			>
 				{post.title}
 			</Link>
-			{user ? (
-				<p className="text-lg">
-					Created by:{" "}
-					<Link
-						to={`/blog/author/${post.author._id}`}
-						className="text-blue-800 font-medium hover:underline focus:underline"
-					>
-						@{post.author.username}
-					</Link>
-				</p>
-			) : (
-				<InfoText />
-			)}
+			<div className="flex gap-2 items-center">
+				<p>Created by: </p>
+				<p>@{post.author.username}</p>
+			</div>
 			<div className="w-[450px]">
 				<img
 					src={post.imgURL}
