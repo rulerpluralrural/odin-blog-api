@@ -26,7 +26,7 @@ const PostsHeader = ({ post, user }) => {
 				<p className="text-lg">
 					Created by:{" "}
 					<Link
-						to={`/author/${post.author._id}`}
+						to={`/blog/author/${post.author._id}`}
 						className="text-blue-800 font-medium hover:underline focus:underline"
 					>
 						@{post.author.username}

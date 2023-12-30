@@ -41,7 +41,7 @@ export default function Login({setMessage, setUser}) {
 
 			if (data.token) {
 				setUser(data.user)
-				navigate("/");
+				navigate("/blog");
 				toast.success("Successfully logged in!");
 			} else {
 				toast.error(data.message);

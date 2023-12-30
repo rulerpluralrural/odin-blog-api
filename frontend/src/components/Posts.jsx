@@ -25,7 +25,7 @@ const Posts = ({ posts, user }) => {
 const PostCardHeader = ({ post, user }) => {
 	return (
 		<>
-			<div className="border-[1px] border-slate-500 rounded-md">
+			<div>
 				<img
 					src={post.imgURL}
 					alt={`${post.title} image`}
@@ -36,7 +36,7 @@ const PostCardHeader = ({ post, user }) => {
 				<div>
 					{user ? (
 						<Link
-							to={`/author/${post.author._id}`}
+							to={`/blog/author/${post.author._id}`}
 							className="text-blue-800 font-semibold hover:underline focus:underline"
 						>
 							@{post.author.username}

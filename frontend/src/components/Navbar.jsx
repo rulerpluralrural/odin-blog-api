@@ -19,7 +19,7 @@ export default function Navbar({ user, setLoading, setUser }) {
 		setLoading(false);
 		setUser(null);
 		toast.success("You have logged out!");
-		navigate("/");
+		navigate("/blog/login");
 	};
 
 	return (

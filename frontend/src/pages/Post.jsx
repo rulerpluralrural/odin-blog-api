@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import PuffLoader from "react-spinners/PuffLoader";
+import PostContent from "../components/PostContent";
 
-const Post = () => {
+const Post = ({user}) => {
 	const { id } = useParams();
 	const [post, setPost] = useState(null);
 	const [loading, setLoading] = useState(false);
@@ -37,36 +38,8 @@ const Post = () => {
 	}
 
 	return (
-		<div>
-			<div>
-				<h1>{post.title}</h1>
-				<div>
-					<img src={post.imgURL} alt={`${post.title} image`} />
-					<div>
-						<div>
-							<p>@{post.author.username}</p>
-							<p>{post.date_formatted}</p>
-						</div>
-						<p>{post.content}</p>
-					</div>
-				</div>
-			</div>
-			<div>
-				<form>
-                    <label htmlFor="comment">Leave a comment</label>
-					<input type="text" name="comment" id="comment"/>
-                    <button type="submit">Submit</button>
-				</form>
-			</div>
-            <div>
-                {post.comments.map((comment, index) => {
-                    return <div key={index}>
-                        <p>{comment.user.username}</p>
-                        <p>{comment.date_formatted}</p>
-                        <p>{comment.comment}</p>
-                    </div>
-                })}
-            </div>
+		<div className="flex flex-col">
+			<PostContent post={post} user={user}/>
 		</div>
 	);
 };

@@ -43,7 +43,7 @@ export default function Login({ setMessage }) {
 			setMessage(true);
 
 			if (data.token) {
-				navigate("/");
+				navigate("/blog/login");
 				toast.success("Successfully registered!");
 			} else {
 				if (data.messages) {

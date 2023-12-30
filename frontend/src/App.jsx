@@ -26,7 +26,7 @@ export default function App() {
 		};
 		getSession();
 	}, []);
-
+	console.log(user)
 	return (
 		<div className="flex flex-col h-screen">
 			<Navbar user={user} setLoading={setLoading} setUser={setUser} />
@@ -37,7 +37,7 @@ export default function App() {
 			) : (
 				<Routes>
 					<Route path="/blog" element={<Home user={user} />}></Route>
-					<Route path="/blog/posts/:id" element={<Post />}></Route>
+					<Route path="/blog/posts/:id" element={<Post user={user}/>}></Route>
 					<Route
 						path="/blog/login"
 						element={<Login setMessage={setMessage} setUser={setUser} />}
