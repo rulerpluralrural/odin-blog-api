@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaAt, FaRegClock, FaRegThumbsUp, FaRegUser } from "react-icons/fa";
+import InfoText from "../InfoText";
 
 const PostContent = ({ post, user }) => {
 	return (
 		<>
-			<PostDetails post={post} user={user}/>
+			<PostDetails post={post} user={user} />
 			<PostForm user={user} />
 			{post.comments.length === 0 ? (
 				<div className="self-center py-10">
@@ -14,13 +15,13 @@ const PostContent = ({ post, user }) => {
 					</p>
 				</div>
 			) : (
-				<PostComments post={post} user={user}/>
+				<PostComments post={post} user={user} />
 			)}
 		</>
 	);
 };
 
-const PostDetails = ({ post }) => {
+const PostDetails = ({ post, user }) => {
 	return (
 		<div className="grid grid-cols-1 lg:grid-cols-[600px_1fr] place-items-center bg-slate-100 text-center py-10 gap-2 px-0 lg:px-10 xl:px-32">
 			<div className="flex flex-col items-center">
@@ -34,16 +35,24 @@ const PostDetails = ({ post }) => {
 						className=" rounded-md"
 					/>
 					<div className="flex justify-between py-2 px-1">
-						<div className="flex items-center gap-1 text-blue-900 hover:underline focus:underline">
-							<FaAt></FaAt>
-							<Link to={`/blog/author/${post.author._id}`}>
-								{post.author.username}
-							</Link>
-						</div>
-						<div className="flex items-center gap-1 italic">
-							<FaRegClock></FaRegClock>
-							<p>{post.date_formatted}</p>
-						</div>
+						{user ? (
+							<div className="flex items-center gap-1 text-blue-900 hover:underline focus:underline">
+								<FaAt></FaAt>
+								<Link to={`/blog/author/${post.author._id}`}>
+									{post.author.username}
+								</Link>
+							</div>
+						) : (
+							<InfoText />
+						)}
+						{user ? (
+							<div className="flex items-center gap-1 italic">
+								<FaRegClock></FaRegClock>
+								<p>{post.date_formatted}</p>
+							</div>
+						) : (
+							<InfoText />
+						)}
 					</div>
 				</div>
 				<hr className="border-[1px] border-slate-300 w-full" />
@@ -102,37 +111,45 @@ const PostForm = ({ user }) => {
 	);
 };
 
-const PostComments = ({ post }) => {
+const PostComments = ({ post, user }) => {
 	return (
-		<div className="flex flex-col self-center py-10 w-[600px]">
-			{post.comments.map((comment, index) => {
-				return (
-					<div
-						key={index}
-						className="grid grid-cols-[100px_1fr] gap-1 items-center mb-2 pb-2 border-b-[1px] border-slate-300"
-					>
-						<FaRegUser className="text-4xl w-full h-full p-5 rounded-sm border-[1px] border-slate-300" />
-						<div className="w-full flex flex-col mb-2 ">
-							<Link
-								to={`/blog/author/${comment.user._id}`}
-								className="font-bold font-serif text-blue-800"
+		<>
+			{user ? (
+				<div className="flex flex-col self-center py-10 w-[600px]">
+					{post.comments.map((comment, index) => {
+						return (
+							<div
+								key={index}
+								className="grid grid-cols-[100px_1fr] gap-1 items-center mb-2 pb-2 border-b-[1px] border-slate-300"
 							>
-								{comment.user.username}
-							</Link>
-							<p className="py-1 flex-1">{comment.comment}</p>
-							<div className="flex gap-3 items-center">
-								<button type="button" className="text-blue-900">
-									Like
-								</button>
-								<div className="flex items-center gap-1">
-									<FaRegClock /> <em>{comment.date_formatted}</em>
+								<FaRegUser className="text-4xl w-full h-full p-5 rounded-sm border-[1px] border-slate-300" />
+								<div className="w-full flex flex-col mb-2 ">
+									<Link
+										to={`/blog/author/${comment.user._id}`}
+										className="font-bold font-serif text-blue-800"
+									>
+										{comment.user.username}
+									</Link>
+									<p className="py-1 flex-1">{comment.comment}</p>
+									<div className="flex gap-3 items-center">
+										<button type="button" className="text-blue-900">
+											Like
+										</button>
+										<div className="flex items-center gap-1">
+											<FaRegClock /> <em>{comment.date_formatted}</em>
+										</div>
+									</div>
 								</div>
 							</div>
-						</div>
-					</div>
-				);
-			})}
-		</div>
+						);
+					})}
+				</div>
+			) : (
+				<div className="p-5 mt-6 flex self-center items-center justify-center w-[270px] border-[1px] border-green-400 rounded-md">
+					<p className="font-semibold">Login to view the comments</p>
+				</div>
+			)}
+		</>
 	);
 };
 

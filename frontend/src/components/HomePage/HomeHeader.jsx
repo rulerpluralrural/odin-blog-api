@@ -21,7 +21,7 @@ const HomeHeader = ({ post, user }) => {
 				to={`/blog/posts/${post.id}`}
 				className="text-3xl font-serif font-bold hover:animate-pulse focus:animate-pulse"
 			>
-				Featured Blog: {post.title}
+				{post.title}
 			</Link>
 			{user ? (
 				<p className="text-lg">
