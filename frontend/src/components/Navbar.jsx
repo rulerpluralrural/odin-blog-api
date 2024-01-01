@@ -51,13 +51,12 @@ const NavLinks = ({ user, logOut }) => {
 						>
 							<FaSignOutAlt></FaSignOutAlt>LOGOUT
 						</button>
-						<Link
-							to={`/blog//author/${user._id}`}
+						<div
 							className="flex items-center gap-2 uppercase"
 						>
 							<FaUserCircle></FaUserCircle>
 							{user.username}
-						</Link>
+						</div>
 					</>
 				) : (
 					<>

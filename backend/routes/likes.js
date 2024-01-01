@@ -5,6 +5,6 @@ import likesController from "../controllers/likes.js";
 import authenticateUser from "../middlewares/auth.js";
 
 // Post route for adding a like
-router.post("/posts/:id", authenticateUser, likesController.add_like)
+router.post("/posts/:id/like", authenticateUser, likesController.add_like)
 
 export default router

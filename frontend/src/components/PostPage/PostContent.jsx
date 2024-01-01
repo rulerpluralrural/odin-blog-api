@@ -1,5 +1,13 @@
-import React, { useState } from "react";
-import { FaAt, FaRegClock, FaRegThumbsUp, FaRegUser } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import {
+	FaAt,
+	FaRegClock,
+	FaRegThumbsUp,
+	FaThumbsUp,
+	FaRegUser,
+	FaRegThumbsDown,
+} from "react-icons/fa";
+import { toast } from "react-toastify";
 
 const PostContent = ({ post, user }) => {
 	return (
@@ -20,6 +28,38 @@ const PostContent = ({ post, user }) => {
 };
 
 const PostDetails = ({ post, user }) => {
+	const [isLiked, setIsLiked] = useState(null);
+	const [likesCount, setLikesCount] = useState(post.likes.length)
+
+	const addPostLike = async () => {
+		try {
+			if (!user) {
+				const notify = toast.warning("Log in to leave a like");
+
+				setTimeout(() => {
+					toast.dismiss(notify);
+				}, 5000);
+			} else {
+				const data = await fetch(
+					`http://localhost:8000/api/blog/posts/${post._id}/like`,
+					{
+						method: "POST",
+						credentials: "include",
+						headers: {
+							["Content-Type"]: "application/json; charset=utf-8",
+						},
+					}
+				).then((res) => res.json());
+				setIsLiked(data.like !== undefined);
+				setLikesCount(data.likesCount)
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	console.log(isLiked);
+
 	return (
 		<div className="grid grid-cols-1 lg:grid-cols-[600px_1fr] place-items-center bg-slate-100 text-center py-10 gap-2 px-0 lg:px-10 xl:px-32">
 			<div className="flex flex-col items-center">
@@ -53,8 +93,18 @@ const PostDetails = ({ post, user }) => {
 					<p>Did you enjoy this post?</p>
 					<div className="flex items-center justify-center">
 						<p className="mr-2">Leave a like:</p>
-						<FaRegThumbsUp className=" cursor-pointer hover:animate-bounce hover:text-blue-800 focus:animate-bounce focus-within:text-blue-800 text-2xl" />
-						<p className="ml-1 font-bold">{post.likes.length}</p>
+						{isLiked === true ? (
+							<FaThumbsUp
+								className="cursor-pointer hover:animate-bounce hover:text-blue-800 focus:animate-bounce focus-within:text-blue-800 text-2xl text-blue-800"
+								onClick={addPostLike}
+							/>
+						) : (
+							<FaRegThumbsUp
+								className="cursor-pointer hover:animate-bounce hover:text-blue-800 focus:animate-bounce focus-within:text-blue-800 text-2xl"
+								onClick={addPostLike}
+							/>
+						)}
+						<p className="ml-1 font-bold">{likesCount}</p>
 					</div>
 				</div>
 			</div>
@@ -70,6 +120,7 @@ const PostForm = ({ user }) => {
 			</div>
 		);
 	}
+
 	return (
 		<div className="p-5 self-center flex flex-col justify-center items-center w-[600px]">
 			<form className="flex flex-col gap-2 items-center w-full">

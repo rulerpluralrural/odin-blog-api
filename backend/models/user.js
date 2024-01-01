@@ -26,6 +26,10 @@ const UserSchema = new Schema({
 		],
 		unique: true,
 	},
+	isAdmin: {
+		type: Boolean,
+		default: false,
+	},
 });
 
 UserSchema.pre("save", async function () {

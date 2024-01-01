@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -38,16 +38,17 @@ export default function App() {
 				</div>
 			) : (
 				<Routes>
+					<Route
+						path="/"
+						element={<Navigate to="/blog" replace={true} />}
+					></Route>
 					<Route path="/blog" element={<Home user={user} />}></Route>
 					<Route path="/blog/posts/:id" element={<Post user={user} />}></Route>
 					<Route
 						path="/blog/login"
 						element={<Login setUser={setUser} />}
 					></Route>
-					<Route
-						path="/blog/sign-up"
-						element={<Register />}
-					></Route>
+					<Route path="/blog/sign-up" element={<Register />}></Route>
 				</Routes>
 			)}
 			<ToastContainer
