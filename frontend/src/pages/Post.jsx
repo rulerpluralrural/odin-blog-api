@@ -33,7 +33,7 @@ const Post = ({ user }) => {
 				<h1 className="font-bold font-serif text-xl">
 					Fetching data please wait...
 				</h1>
-				<PuffLoader size={125} />
+				<PuffLoader size={150} color="#36d6b0"/>
 			</div>
 		);
 	}

@@ -94,16 +94,16 @@ export default {
 	],
 
 	delete_comment: asyncHandler(async (req, res) => {
-		const commentId = req.params.id;
-		const comment = await Comment.findByIdAndDelete(commentId);
+		const commentID = req.params.id
+		const comment = await Comment.findByIdAndDelete(commentID);
 
 		if (!comment) {
-			throw new NotFoundError(`No comment with this id ${commentId}`);
+			throw new NotFoundError(`No comment with this id ${commentID}`);
 		}
 
 		res.status(StatusCodes.OK).json({
 			msg: "Comment successfully deleted",
-			id: commentId,
+			id: commentID,
 			comment: comment.comment,
 		});
 	}),

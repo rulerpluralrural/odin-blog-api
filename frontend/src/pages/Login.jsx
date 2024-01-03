@@ -68,7 +68,7 @@ export default function Login({ setMessage, setUser }) {
 				<h1 className="font-bold">BLOG API</h1>
 			</div>
 			{loading ? (
-				<PuffLoader />
+				<PuffLoader size={150} color="#36d6b0"/>
 			) : (
 				<LoginForm
 					username={username}

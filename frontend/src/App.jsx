@@ -11,7 +11,7 @@ import PuffLoader from "react-spinners/PuffLoader";
 
 export default function App() {
 	const [user, setUser] = useState(null);
-	const [loading, setLoading] = useState(false);
+	const [loadingSession, setLoadingSession] = useState(true);
 
 	useEffect(() => {
 		const getSession = async () => {
@@ -22,6 +22,7 @@ export default function App() {
 				}
 			).then((res) => res.json());
 			setUser(response.user);
+			setLoadingSession(false)
 		};
 		getSession();
 	}, []);
@@ -30,10 +31,10 @@ export default function App() {
 
 	return (
 		<div className="flex flex-col h-screen">
-			<Navbar user={user} setLoading={setLoading} setUser={setUser} />
-			{loading ? (
+			<Navbar user={user} setLoadingSession={setLoadingSession} setUser={setUser} loadingSession={loadingSession}/>
+			{loadingSession ? (
 				<div className="flex flex-1 items-center justify-center">
-					<PuffLoader size={150} />
+					<PuffLoader size={150} color="#36d6b0"/>
 				</div>
 			) : (
 				<Routes>

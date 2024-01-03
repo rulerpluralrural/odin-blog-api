@@ -5,7 +5,7 @@ import {
 	FaRegThumbsUp,
 	FaThumbsUp,
 	FaRegUser,
-	FaRegThumbsDown,
+	FaTrashAlt,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 
@@ -28,7 +28,7 @@ const PostContent = ({ post, user }) => {
 					</p>
 				</div>
 			) : (
-				<PostComments comments={comments} user={user} />
+				<PostComments comments={comments} user={user} setComments={setComments} />
 			)}
 		</>
 	);
@@ -64,8 +64,6 @@ const PostDetails = ({ post, user }) => {
 			console.log(error);
 		}
 	};
-
-	console.log(isLiked);
 
 	return (
 		<div className="grid grid-cols-1 lg:grid-cols-[600px_1fr] place-items-center bg-slate-100 text-center py-10 gap-2 px-0 lg:px-10 xl:px-32">
@@ -185,14 +183,30 @@ const PostForm = ({ post, user, setComments, comments }) => {
 	);
 };
 
-const PostComments = ({ comments }) => {
+const PostComments = ({ comments, user, setComments }) => {
+	
+	const deleteComment = (commentID) => {
+		return async () => {
+			try {
+				await fetch(`http://localhost:8000/api/blog/comments/${commentID}`, {
+					method: "DELETE",
+					credentials: "include",
+					headers: {
+						["Content-Type"]: "application/json; charset=utf-8",
+					},
+				}).then((res) => res.json());
+				setComments(comments.filter((item) => item._id !== commentID))
+			} catch (error) {}
+		};
+	};
+
 	return (
 		<div className="flex flex-col self-center py-10 w-[600px]">
 			{comments.map((comment, index) => {
 				return (
 					<div
 						key={index}
-						className="grid grid-cols-[100px_1fr] gap-1 items-center mb-2 pb-2 border-b-[1px] border-slate-300"
+						className="grid grid-cols-[100px_1fr] gap-1 items-center mb-2 pb-2 border-b-[1px] border-slate-300 relative"
 					>
 						<FaRegUser className="text-4xl w-full h-full p-5 rounded-sm border-[1px] border-slate-300" />
 						<div className="w-full flex flex-col mb-2 ">
@@ -212,6 +226,13 @@ const PostComments = ({ comments }) => {
 								</div>
 							</div>
 						</div>
+						{user?._id === comment.user._id && (
+							<FaTrashAlt
+								className="absolute top-[15px] right-0 cursor-pointer hover:text-red-700 focus:text-red-700 transition-colors"
+								title="Delete Comment"
+								onClick={deleteComment(comment._id)}
+							/>
+						)}
 					</div>
 				);
 			})}

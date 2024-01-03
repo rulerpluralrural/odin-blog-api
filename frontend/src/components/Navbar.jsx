@@ -6,21 +6,27 @@ import {
 	FaUserCircle,
 } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
+import PulseLoader from "react-spinners/PulseLoader";
 import { toast } from "react-toastify";
 
-export default function Navbar({ user, setLoading, setUser }) {
+export default function Navbar({
+	user,
+	setLoadingSession,
+	setUser,
+	loadingSession,
+}) {
 	const navigate = useNavigate();
 	const logOut = async () => {
-		setLoading(true);
+		setLoadingSession(true);
 		await fetch("http://localhost:8000/api/blog/logout", {
 			method: "POST",
 			credentials: "include",
 		});
-		setLoading(false);
+		setLoadingSession(false);
 		setUser(null);
 		const notify = toast.success("You have logged out!");
 		setTimeout(() => {
-			toast.dismiss(notify)
+			toast.dismiss(notify);
 		}, 5000);
 		navigate("/blog/login");
 	};
@@ -33,16 +39,18 @@ export default function Navbar({ user, setLoading, setUser }) {
 					BLOG API
 				</Link>
 			</div>
-			<NavLinks user={user} logOut={logOut} />
+			<NavLinks user={user} logOut={logOut} loadingSession={loadingSession}/>
 		</div>
 	);
 }
 
-const NavLinks = ({ user, logOut }) => {
+const NavLinks = ({ user, logOut, loadingSession }) => {
 	return (
 		<nav className="px-10 py-8">
 			<div className="flex justify-between items-center gap-10 font-bold text-xl">
-				{user ? (
+				{loadingSession ? (
+					<PulseLoader  className="self-center" color="#36d6b0"/>
+				) : user ? (
 					<>
 						<button
 							type="button"
@@ -51,9 +59,7 @@ const NavLinks = ({ user, logOut }) => {
 						>
 							<FaSignOutAlt></FaSignOutAlt>LOGOUT
 						</button>
-						<div
-							className="flex items-center gap-2 uppercase"
-						>
+						<div className="flex items-center gap-2 uppercase">
 							<FaUserCircle></FaUserCircle>
 							{user.username}
 						</div>

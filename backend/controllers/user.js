@@ -39,7 +39,7 @@ export default {
 
 		res
 			.status(StatusCodes.OK)
-			.json({ user: { username: user.username, id: user._id }, token });
+			.json({ user: { username: user.username, _id: user._id }, token });
 	}),
 
 	// Handle sign-up on POST
