@@ -51,6 +51,11 @@ export default {
 					path: "user",
 					select: "username",
 				},
+				options: {
+					sort: {
+						createdAt: -1,
+					},
+				},
 			})
 			.populate("likes")
 			.exec();

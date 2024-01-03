@@ -119,6 +119,12 @@ export default {
 
 	// Check user session
 	check_user_session: asyncHandler(async (req, res) => {
-		res.status(StatusCodes.OK).json({ user: req.user });
+		res.status(StatusCodes.OK).json({
+			user: {
+				username: req.user.username,
+				_id: req.user._id,
+				isAdmin: req.user.isAdmin
+			},
+		});
 	}),
 };

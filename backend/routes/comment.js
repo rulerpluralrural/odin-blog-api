@@ -9,7 +9,7 @@ router.get("/comments", authenticateUser, commentController.get_comments);
 
 // POST route for creating a comment
 router.post(
-	"/comments/:id",
+	"/posts/:id/comment",
 	authenticateUser,
 	commentController.create_comment
 );

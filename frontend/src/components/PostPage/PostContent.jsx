@@ -10,10 +10,17 @@ import {
 import { toast } from "react-toastify";
 
 const PostContent = ({ post, user }) => {
+	const [comments, setComments] = useState(post.comments);
+
 	return (
 		<>
 			<PostDetails post={post} user={user} />
-			<PostForm user={user} />
+			<PostForm
+				post={post}
+				user={user}
+				setComments={setComments}
+				comments={comments}
+			/>
 			{post.comments.length === 0 ? (
 				<div className="self-center py-10">
 					<p className="font-semibold">
@@ -21,7 +28,7 @@ const PostContent = ({ post, user }) => {
 					</p>
 				</div>
 			) : (
-				<PostComments post={post} user={user} />
+				<PostComments comments={comments} user={user} />
 			)}
 		</>
 	);
@@ -29,7 +36,7 @@ const PostContent = ({ post, user }) => {
 
 const PostDetails = ({ post, user }) => {
 	const [isLiked, setIsLiked] = useState(null);
-	const [likesCount, setLikesCount] = useState(post.likes.length)
+	const [likesCount, setLikesCount] = useState(post.likes.length);
 
 	const addPostLike = async () => {
 		try {
@@ -51,7 +58,7 @@ const PostDetails = ({ post, user }) => {
 					}
 				).then((res) => res.json());
 				setIsLiked(data.like !== undefined);
-				setLikesCount(data.likesCount)
+				setLikesCount(data.likesCount);
 			}
 		} catch (error) {
 			console.log(error);
@@ -112,7 +119,34 @@ const PostDetails = ({ post, user }) => {
 	);
 };
 
-const PostForm = ({ user }) => {
+const PostForm = ({ post, user, setComments, comments }) => {
+	const [comment, setComment] = useState("");
+
+	const handleChange = (e) => {
+		setComment(e.target.value);
+	};
+
+	const handleComment = async (e) => {
+		e.preventDefault();
+		try {
+			const data = await fetch(
+				`http://localhost:8000/api/blog/posts/${post._id}/comment`,
+				{
+					method: "POST",
+					body: JSON.stringify({ comment }),
+					credentials: "include",
+					headers: {
+						["Content-Type"]: "application/json; charset=utf-8",
+					},
+				}
+			).then((res) => res.json());
+			e.target.reset();
+			setComments([data.comment, ...comments]);
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	if (!user) {
 		return (
 			<div className="p-5 mt-6 flex self-center items-center justify-center w-[260px] border-[1px] border-green-400 rounded-md">
@@ -123,7 +157,10 @@ const PostForm = ({ user }) => {
 
 	return (
 		<div className="p-5 self-center flex flex-col justify-center items-center w-[600px]">
-			<form className="flex flex-col gap-2 items-center w-full">
+			<form
+				className="flex flex-col gap-2 items-center w-full"
+				onSubmit={handleComment}
+			>
 				<label className="font-semibold text-xl font-serif">
 					Leave a comment
 				</label>
@@ -133,7 +170,8 @@ const PostForm = ({ user }) => {
 					id="comment"
 					placeholder="Add a comment..."
 					className="w-full border-2 border-slate-300 rounded-sm p-2 h-28"
-				/>
+					onChange={handleChange}
+				></textarea>
 				<div className=" w-full items-center">
 					<button
 						type="submit"
@@ -147,10 +185,10 @@ const PostForm = ({ user }) => {
 	);
 };
 
-const PostComments = ({ post }) => {
+const PostComments = ({ comments }) => {
 	return (
 		<div className="flex flex-col self-center py-10 w-[600px]">
-			{post.comments.map((comment, index) => {
+			{comments.map((comment, index) => {
 				return (
 					<div
 						key={index}
@@ -165,6 +203,9 @@ const PostComments = ({ post }) => {
 							<div className="flex gap-3 items-center">
 								<button type="button" className="text-blue-900">
 									Like
+								</button>
+								<button type="button" className="text-blue-900">
+									Edit
 								</button>
 								<div className="flex items-center gap-1">
 									<FaRegClock /> <em>{comment.date_formatted}</em>

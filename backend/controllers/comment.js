@@ -3,6 +3,7 @@ import asyncHandler from "express-async-handler";
 import { StatusCodes } from "http-status-codes";
 import { NotFoundError } from "../errors/index.js";
 import { check, validationResult } from "express-validator";
+import user from "../models/user.js";
 
 export default {
 	create_comment: [
@@ -28,7 +29,11 @@ export default {
 
 			await comment.save();
 
-			res.status(StatusCodes.CREATED).json({ comment });
+			await comment.populate("user", "username");
+
+			res.status(StatusCodes.CREATED).json({
+				comment,
+			});
 		}),
 	],
 
@@ -45,7 +50,7 @@ export default {
 
 	get_comments: asyncHandler(async (req, res) => {
 		const comments = await Comment.find({})
-			.sort([["timeStamps", "descending"]])
+			.sort([["timestamps", "descending"]])
 			.exec();
 
 		if (!comments) {
@@ -96,12 +101,10 @@ export default {
 			throw new NotFoundError(`No comment with this id ${commentId}`);
 		}
 
-		res
-			.status(StatusCodes.OK)
-			.json({
-				msg: "Comment successfully deleted",
-				id: commentId,
-				comment: comment.comment,
-			});
+		res.status(StatusCodes.OK).json({
+			msg: "Comment successfully deleted",
+			id: commentId,
+			comment: comment.comment,
+		});
 	}),
 };
