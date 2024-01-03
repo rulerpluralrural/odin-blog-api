@@ -1,6 +1,7 @@
 import Post from "../models/post.js";
 import Comments from "../models/comment.js";
 import PostLikes from "../models/postLikes.js";
+import CommentLikes from "../models/commentLikes.js"
 import asyncHandler from "express-async-handler";
 import { StatusCodes } from "http-status-codes";
 import { BadRequestError, NotFoundError } from "../errors/index.js";
@@ -50,6 +51,9 @@ export default {
 				populate: {
 					path: "user",
 					select: "username",
+				},
+				populate: {
+					path: "likes",
 				},
 				options: {
 					sort: {

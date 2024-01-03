@@ -27,6 +27,12 @@ CommentSchema.virtual("date_formatted").get(function () {
 	return DateTime.fromJSDate(this.createdAt).toLocaleString(DateTime.DATE_MED);
 });
 
+CommentSchema.virtual("likes", {
+	ref: "CommentLikes",
+	localField: "_id",
+	foreignField: "comment"
+})
+
 CommentSchema.set("toJSON", { virtuals: true });
 
 export default mongoose.model("Comment", CommentSchema);

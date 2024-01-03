@@ -28,7 +28,11 @@ const PostContent = ({ post, user }) => {
 					</p>
 				</div>
 			) : (
-				<PostComments comments={comments} user={user} setComments={setComments} />
+				<PostComments
+					comments={comments}
+					user={user}
+					setComments={setComments}
+				/>
 			)}
 		</>
 	);
@@ -184,7 +188,8 @@ const PostForm = ({ post, user, setComments, comments }) => {
 };
 
 const PostComments = ({ comments, user, setComments }) => {
-	
+	const [isLiked, setIsLiked] = useState(false);
+
 	const deleteComment = (commentID) => {
 		return async () => {
 			try {
@@ -195,11 +200,15 @@ const PostComments = ({ comments, user, setComments }) => {
 						["Content-Type"]: "application/json; charset=utf-8",
 					},
 				}).then((res) => res.json());
-				setComments(comments.filter((item) => item._id !== commentID))
+				setComments(comments.filter((item) => item._id !== commentID));
 			} catch (error) {}
 		};
 	};
 
+	const handleCommentLike = async () => {
+		setIsLiked(!isLiked);
+	};
+	console.log(comments);
 	return (
 		<div className="flex flex-col self-center py-10 w-[600px]">
 			{comments.map((comment, index) => {
@@ -215,14 +224,22 @@ const PostComments = ({ comments, user, setComments }) => {
 							</p>
 							<p className="py-1 flex-1">{comment.comment}</p>
 							<div className="flex gap-3 items-center">
-								<button type="button" className="text-blue-900">
-									Like
-								</button>
-								<button type="button" className="text-blue-900">
-									Edit
-								</button>
 								<div className="flex items-center gap-1">
-									<FaRegClock /> <em>{comment.date_formatted}</em>
+									<FaRegClock /> <p>{comment.date_formatted}</p>
+								</div>
+								<div className="flex items-center gap-2">
+									<button
+										type="button"
+										className={`text-blue-900 flex items-center ${
+											isLiked && "font-semibold text-blue-950"
+										}`}
+										onClick={handleCommentLike}
+									>
+										Like
+									</button>
+									<div className="flex items-center">
+										<FaRegThumbsUp /> <p className="ml-1">{comment.likes?.length}</p>
+									</div>
 								</div>
 							</div>
 						</div>
