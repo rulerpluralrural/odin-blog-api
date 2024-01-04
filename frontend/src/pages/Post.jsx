@@ -40,7 +40,7 @@ const Post = ({ user }) => {
 
 	return (
 		<div className="flex flex-col">
-			<PostContent post={post} user={user} />
+			<PostContent post={post} user={user} id={id} />
 		</div>
 	);
 };

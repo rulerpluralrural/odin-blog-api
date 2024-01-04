@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
 	FaAt,
 	FaRegClock,
 	FaRegThumbsUp,
 	FaThumbsUp,
-	FaRegUser,
-	FaTrashAlt,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
+import Comment from "../Comments/Comment";
 
-const PostContent = ({ post, user }) => {
+const PostContent = ({ post, user, id }) => {
 	const [comments, setComments] = useState(post.comments);
 
 	return (
 		<>
-			<PostDetails post={post} user={user} />
+			<PostDetails post={post} user={user} id={id} />
 			<PostForm
 				post={post}
 				user={user}
 				setComments={setComments}
 				comments={comments}
+				id={id}
 			/>
 			{post.comments.length === 0 ? (
 				<div className="self-center py-10">
@@ -38,7 +38,7 @@ const PostContent = ({ post, user }) => {
 	);
 };
 
-const PostDetails = ({ post, user }) => {
+const PostDetails = ({ post, user, id }) => {
 	const [isLiked, setIsLiked] = useState(null);
 	const [likesCount, setLikesCount] = useState(post.likes.length);
 
@@ -52,7 +52,7 @@ const PostDetails = ({ post, user }) => {
 				}, 5000);
 			} else {
 				const data = await fetch(
-					`http://localhost:8000/api/blog/posts/${post._id}/like`,
+					`http://localhost:8000/api/blog/posts/${id}/like`,
 					{
 						method: "POST",
 						credentials: "include",
@@ -121,7 +121,7 @@ const PostDetails = ({ post, user }) => {
 	);
 };
 
-const PostForm = ({ post, user, setComments, comments }) => {
+const PostForm = ({ post, user, setComments, comments, id }) => {
 	const [comment, setComment] = useState("");
 
 	const handleChange = (e) => {
@@ -132,7 +132,7 @@ const PostForm = ({ post, user, setComments, comments }) => {
 		e.preventDefault();
 		try {
 			const data = await fetch(
-				`http://localhost:8000/api/blog/posts/${post._id}/comment`,
+				`http://localhost:8000/api/blog/posts/${id}/comment`,
 				{
 					method: "POST",
 					body: JSON.stringify({ comment }),
@@ -188,71 +188,17 @@ const PostForm = ({ post, user, setComments, comments }) => {
 };
 
 const PostComments = ({ comments, user, setComments }) => {
-	const [isLiked, setIsLiked] = useState(false);
-
-	const deleteComment = (commentID) => {
-		return async () => {
-			try {
-				await fetch(`http://localhost:8000/api/blog/comments/${commentID}`, {
-					method: "DELETE",
-					credentials: "include",
-					headers: {
-						["Content-Type"]: "application/json; charset=utf-8",
-					},
-				}).then((res) => res.json());
-				setComments(comments.filter((item) => item._id !== commentID));
-			} catch (error) {}
-		};
-	};
-
-	const handleCommentLike = async () => {
-		setIsLiked(!isLiked);
-	};
-	console.log(comments);
 	return (
 		<div className="flex flex-col self-center py-10 w-[600px]">
-			{comments.map((comment, index) => {
-				return (
-					<div
-						key={index}
-						className="grid grid-cols-[100px_1fr] gap-1 items-center mb-2 pb-2 border-b-[1px] border-slate-300 relative"
-					>
-						<FaRegUser className="text-4xl w-full h-full p-5 rounded-sm border-[1px] border-slate-300" />
-						<div className="w-full flex flex-col mb-2 ">
-							<p className="font-bold font-serif text-blue-800">
-								{comment.user.username}
-							</p>
-							<p className="py-1 flex-1">{comment.comment}</p>
-							<div className="flex gap-3 items-center">
-								<div className="flex items-center gap-1">
-									<FaRegClock /> <p>{comment.date_formatted}</p>
-								</div>
-								<div className="flex items-center gap-2">
-									<button
-										type="button"
-										className={`text-blue-900 flex items-center ${
-											isLiked && "font-semibold text-blue-950"
-										}`}
-										onClick={handleCommentLike}
-									>
-										Like
-									</button>
-									<div className="flex items-center">
-										<FaRegThumbsUp /> <p className="ml-1">{comment.likes?.length}</p>
-									</div>
-								</div>
-							</div>
-						</div>
-						{user?._id === comment.user._id && (
-							<FaTrashAlt
-								className="absolute top-[15px] right-0 cursor-pointer hover:text-red-700 focus:text-red-700 transition-colors"
-								title="Delete Comment"
-								onClick={deleteComment(comment._id)}
-							/>
-						)}
-					</div>
-				);
-			})}
+			{comments.map((comment, index) => (
+				<Comment
+					comment={comment}
+					user={user}
+					setComments={setComments}
+					comments={comments}
+					key={index}
+				/>
+			))}
 		</div>
 	);
 };

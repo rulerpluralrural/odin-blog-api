@@ -8,11 +8,6 @@ const CommentLikes = new Schema(
 			ref: "User",
 			required: [true, "User is required"],
 		},
-		post: {
-			type: Schema.Types.ObjectId,
-			ref: "Post",
-			required: [true, "Post is required"],
-		},
         comment: {
             type: Schema.Types.ObjectId,
             ref: "Comment",
