@@ -5,7 +5,7 @@ import LoginForm from "../components/LoginPage/LoginForm";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-export default function Login({ setMessage, setUser }) {
+export default function Login({ setUser }) {
 	const [formData, setFormData] = useState({
 		username: "",
 		password: "",
