@@ -1,9 +1,13 @@
 import React, { useState } from "react";
-import { FaRegUser, FaTrashAlt, FaRegClock, FaRegThumbsUp } from "react-icons/fa";
+import {
+	FaRegUser,
+	FaTrashAlt,
+	FaRegClock,
+	FaRegThumbsUp,
+} from "react-icons/fa";
 
 const Comment = ({ comment, user, setComments, comments }) => {
 	const [likesCount, setLikesCount] = useState(comment.likes?.length);
-    const [isLiked, setIsLiked] = useState(false)
 
 	const deleteComment = async () => {
 		try {
@@ -33,18 +37,13 @@ const Comment = ({ comment, user, setComments, comments }) => {
 				}
 			).then((res) => res.json());
 			setLikesCount(data.likesCount);
-            setIsLiked(!isLiked)
 		} catch (error) {
 			console.log(error);
 		}
 	};
 
-	console.log(comment)
-
 	return (
-		<div
-			className="grid grid-cols-[100px_1fr] gap-1 items-center mb-2 pb-2 border-b-[1px] border-slate-300 relative"
-		>
+		<div className="grid grid-cols-[100px_1fr] gap-1 items-center mb-2 pb-2 border-b-[1px] border-slate-300 relative">
 			<FaRegUser className="text-4xl w-full h-full p-5 rounded-sm border-[1px] border-slate-300" />
 			<div className="w-full flex flex-col mb-2 ">
 				<p className="font-bold font-serif text-blue-800">
@@ -58,9 +57,7 @@ const Comment = ({ comment, user, setComments, comments }) => {
 					<div className="flex items-center gap-2">
 						<button
 							type="button"
-							className={`text-blue-900 flex items-center ${
-								isLiked && "font-semibold text-blue-950"
-							}`}
+							className="text-blue-900 flex items-center"
 							onClick={handleCommentLike}
 						>
 							Like

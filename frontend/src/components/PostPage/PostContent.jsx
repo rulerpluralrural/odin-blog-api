@@ -3,7 +3,6 @@ import {
 	FaAt,
 	FaRegClock,
 	FaRegThumbsUp,
-	FaThumbsUp,
 } from "react-icons/fa";
 import { toast } from "react-toastify";
 import Comment from "../Comments/Comment";
@@ -15,13 +14,12 @@ const PostContent = ({ post, user, id }) => {
 		<>
 			<PostDetails post={post} user={user} id={id} />
 			<PostForm
-				post={post}
 				user={user}
 				setComments={setComments}
 				comments={comments}
 				id={id}
 			/>
-			{post.comments.length === 0 ? (
+			{post.comments.length <= 0 ? (
 				<div className="self-center py-10">
 					<p className="font-semibold">
 						There are no comments yet on this post!
@@ -39,7 +37,6 @@ const PostContent = ({ post, user, id }) => {
 };
 
 const PostDetails = ({ post, user, id }) => {
-	const [isLiked, setIsLiked] = useState(null);
 	const [likesCount, setLikesCount] = useState(post.likes.length);
 
 	const addPostLike = async () => {
@@ -61,7 +58,6 @@ const PostDetails = ({ post, user, id }) => {
 						},
 					}
 				).then((res) => res.json());
-				setIsLiked(data.like !== undefined);
 				setLikesCount(data.likesCount);
 			}
 		} catch (error) {
@@ -102,17 +98,10 @@ const PostDetails = ({ post, user, id }) => {
 					<p>Did you enjoy this post?</p>
 					<div className="flex items-center justify-center">
 						<p className="mr-2">Leave a like:</p>
-						{isLiked === true ? (
-							<FaThumbsUp
-								className="cursor-pointer hover:animate-bounce hover:text-blue-800 focus:animate-bounce focus-within:text-blue-800 text-2xl text-blue-800"
-								onClick={addPostLike}
-							/>
-						) : (
 							<FaRegThumbsUp
 								className="cursor-pointer hover:animate-bounce hover:text-blue-800 focus:animate-bounce focus-within:text-blue-800 text-2xl"
 								onClick={addPostLike}
 							/>
-						)}
 						<p className="ml-1 font-bold">{likesCount}</p>
 					</div>
 				</div>
@@ -121,7 +110,7 @@ const PostDetails = ({ post, user, id }) => {
 	);
 };
 
-const PostForm = ({ post, user, setComments, comments, id }) => {
+const PostForm = ({ user, setComments, comments, id }) => {
 	const [comment, setComment] = useState("");
 
 	const handleChange = (e) => {
