@@ -1,7 +1,8 @@
 import React from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
-
-const formControl = "border-slate-400 border-[1px] rounded-sm w-full p-2";
+import PasswordTwo from "./PasswordTwo";
+import PasswordOne from "./PasswordOne";
+import EmailInput from "./EmailInput";
+import UsernameInput from "./UsernameInput"
 
 const RegisterForm = ({
 	username,
@@ -25,76 +26,20 @@ const RegisterForm = ({
 					Register an account
 				</h1>
 			</div>
-			<div className="w-full">
-				<input
-					type="text"
-					name="username"
-					id="username"
-					value={username}
-					placeholder="Enter your username"
-					className={formControl}
-					onChange={handleChange}
-					required
-				/>
-			</div>
-			<div className="w-full">
-				<input
-					type="text"
-					name="email"
-					id="email"
-					value={email}
-					placeholder="Enter your email address"
-					className={formControl}
-					onChange={handleChange}
-					required
-				/>
-			</div>
-			<div className="w-full relative">
-				<input
-					type={showPassword1 ? "text" : "password"}
-					name="password"
-					id="password"
-					value={password}
-					placeholder="Enter your password"
-					className={formControl}
-					onChange={handleChange}
-					required
-				/>
-				{showPassword1 ? (
-					<FaEye
-						className="absolute top-3 right-3 cursor-pointer text-slate-700 text-xl  transition-opacity hover:opacity-90"
-						onClick={revealPassword1}
-					></FaEye>
-				) : (
-					<FaEyeSlash
-						className="absolute top-3 right-3 cursor-pointer text-slate-700 text-xl  transition-opacity hover:opacity-90"
-						onClick={revealPassword1}
-					></FaEyeSlash>
-				)}
-			</div>
-			<div className="w-full relative">
-				<input
-					type={showPassword2 ? "text" : "password"}
-					name="password2"
-					id="password2"
-					value={password2}
-					placeholder="Confirm your password"
-					className={formControl}
-					onChange={handleChange}
-					required
-				/>
-				{showPassword2 ? (
-					<FaEye
-						className="absolute top-3 right-3 cursor-pointer text-slate-700 text-xl  transition-opacity hover:opacity-90"
-						onClick={revealPassword2}
-					></FaEye>
-				) : (
-					<FaEyeSlash
-						className="absolute top-3 right-3 cursor-pointer text-slate-700 text-xl  transition-opacity hover:opacity-90"
-						onClick={revealPassword2}
-					></FaEyeSlash>
-				)}
-			</div>
+			<UsernameInput username={username} handleChange={handleChange} />
+			<EmailInput email={email} handleChange={handleChange} />
+			<PasswordOne
+				password={password}
+				showPassword1={showPassword1}
+				revealPassword1={revealPassword1}
+				handleChange={handleChange}
+			/>
+			<PasswordTwo
+				password2={password2}
+				showPassword2={showPassword2}
+				revealPassword2={revealPassword2}
+				handleChange={handleChange}
+			/>
 			<button
 				type="submit"
 				className="border-[1px] bg-slate-950 text-slate-200 p-2 font-bold text-xl transition-colors hover:bg-slate-900 text-center"
