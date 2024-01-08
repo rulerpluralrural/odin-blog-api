@@ -23,6 +23,7 @@ const LoginForm = ({username, password, showPassword, handleSubmit, handleChange
 					placeholder="Enter your username"
 					className={formControl}
 					onChange={handleChange}
+					required
 				/>
 			</div>
 			<div className="w-full relative">
@@ -34,6 +35,7 @@ const LoginForm = ({username, password, showPassword, handleSubmit, handleChange
 					placeholder="Enter your password"
 					className={formControl}
 					onChange={handleChange}
+					required
 				/>
 				{showPassword ? (
 					<FaEye

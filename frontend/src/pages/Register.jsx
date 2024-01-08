@@ -59,9 +59,10 @@ export default function Login() {
 			setTimeout(() => {
 				toast.dismiss(notify)
 			}, 5000);
+			
 		} catch (error) {
-			setLoading(false);
 			console.log(error);
+			setLoading(false);
 		}
 	};
 

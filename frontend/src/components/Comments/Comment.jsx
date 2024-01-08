@@ -47,7 +47,7 @@ const Comment = ({ comment, user, setComments, comments }) => {
 			<FaRegUser className="text-4xl w-full h-full p-5 rounded-sm border-[1px] border-slate-300" />
 			<div className="w-full flex flex-col mb-2 ">
 				<p className="font-bold font-serif text-blue-800">
-					{comment.user.username}
+					{comment.user?.username}
 				</p>
 				<p className="py-1 flex-1">{comment.comment}</p>
 				<div className="flex gap-3 items-center">

@@ -34,6 +34,7 @@ const RegisterForm = ({
 					placeholder="Enter your username"
 					className={formControl}
 					onChange={handleChange}
+					required
 				/>
 			</div>
 			<div className="w-full">
@@ -45,6 +46,7 @@ const RegisterForm = ({
 					placeholder="Enter your email address"
 					className={formControl}
 					onChange={handleChange}
+					required
 				/>
 			</div>
 			<div className="w-full relative">
@@ -56,6 +58,7 @@ const RegisterForm = ({
 					placeholder="Enter your password"
 					className={formControl}
 					onChange={handleChange}
+					required
 				/>
 				{showPassword1 ? (
 					<FaEye
@@ -78,6 +81,7 @@ const RegisterForm = ({
 					placeholder="Confirm your password"
 					className={formControl}
 					onChange={handleChange}
+					required
 				/>
 				{showPassword2 ? (
 					<FaEye

@@ -11,7 +11,7 @@ import PuffLoader from "react-spinners/PuffLoader";
 
 export default function App() {
 	const [user, setUser] = useState(null);
-	const [loadingSession, setLoadingSession] = useState(true);
+	const [loadingSession, setLoadingSession] = useState(false);
 
 	useEffect(() => {
 		const getSession = async () => {
