@@ -20,9 +20,7 @@ export default {
 			const errors = validationResult(req);
 
 			if (!errors.isEmpty()) {
-				return res
-					.status(StatusCodes.BAD_REQUEST)
-					.json({ msg: errors.array() });
+				throw new BadRequestError(errors.array())
 			}
 
 			const post = new Post({
@@ -30,6 +28,7 @@ export default {
 				content: req.body.content,
 				author: req.user._id,
 				published: req.body.published,
+				featured: req.body.featured,
 				imgURL: req.body.imgURL,
 			});
 
@@ -93,9 +92,7 @@ export default {
 			const postId = req.params.id;
 
 			if (!errors.isEmpty()) {
-				return res
-					.status(StatusCodes.BAD_REQUEST)
-					.json({ msg: errors.array() });
+				throw new BadRequestError(errors.array())
 			}
 
 			const post = new Post({
@@ -103,6 +100,7 @@ export default {
 				content: req.body.content,
 				author: req.user._id,
 				published: req.body.published,
+				featured: req.body.featured,
 				_id: req.params.id,
 			});
 
