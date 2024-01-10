@@ -18,9 +18,10 @@ export default {
 
 		asyncHandler(async (req, res) => {
 			const errors = validationResult(req);
+			const filter = { featured: true };
 
 			if (!errors.isEmpty()) {
-				throw new BadRequestError(errors.array())
+				throw new BadRequestError(errors.array());
 			}
 
 			const post = new Post({
@@ -31,6 +32,10 @@ export default {
 				featured: req.body.featured,
 				imgURL: req.body.imgURL,
 			});
+
+			if (post.featured === true) {
+				await Post.findOneAndUpdate(filter, { featured: false }, { new: true });
+			}
 
 			// console.log(req.user);
 			await post.save();
@@ -89,10 +94,11 @@ export default {
 
 		asyncHandler(async (req, res) => {
 			const errors = validationResult(req);
-			const postId = req.params.id;
+			const postID = req.params.id;
+			const filter = { featured: true };
 
 			if (!errors.isEmpty()) {
-				throw new BadRequestError(errors.array())
+				throw new BadRequestError(errors.array());
 			}
 
 			const post = new Post({
@@ -101,16 +107,21 @@ export default {
 				author: req.user._id,
 				published: req.body.published,
 				featured: req.body.featured,
+				imgURL: req.body.imgURL,
 				_id: req.params.id,
 			});
 
-			await Post.findByIdAndUpdate({ _id: postId }, post, {
+			if (!post) {
+				throw new NotFoundError(`No post found with this id ${postID}`);
+			}
+
+			if (post.featured === true) {
+				await Post.findOneAndUpdate(filter, { featured: false }, { new: true });
+			}
+
+			await Post.findByIdAndUpdate({ _id: postID }, post, {
 				new: true,
 			});
-
-			if (!post) {
-				throw new NotFoundError(`No post found with this id ${postId}`);
-			}
 
 			res.status(StatusCodes.CREATED).json({ post });
 		}),

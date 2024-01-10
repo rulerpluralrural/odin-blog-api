@@ -15,14 +15,20 @@ export default function App() {
 
 	useEffect(() => {
 		const getSession = async () => {
-			const response = await fetch(
-				"http://localhost:8000/api/blog/auth/session",
-				{
-					credentials: "include",
-				}
-			).then((res) => res.json());
-			setUser(response.user);
-			setLoadingSession(false)
+			setLoadingSession(true);
+			try {
+				const response = await fetch(
+					"http://localhost:8000/api/blog/auth/session",
+					{
+						credentials: "include",
+					}
+				).then((res) => res.json());
+				setUser(response.user);
+				setLoadingSession(false);
+			} catch (error) {
+				console.log(error)
+				setLoadingSession(false)
+			}
 		};
 		getSession();
 	}, []);
@@ -31,10 +37,15 @@ export default function App() {
 
 	return (
 		<div className="flex flex-col h-screen">
-			<Navbar user={user} setLoadingSession={setLoadingSession} setUser={setUser} loadingSession={loadingSession}/>
+			<Navbar
+				user={user}
+				setLoadingSession={setLoadingSession}
+				setUser={setUser}
+				loadingSession={loadingSession}
+			/>
 			{loadingSession ? (
 				<div className="flex flex-1 items-center justify-center">
-					<PuffLoader size={150} color="#36d6b0"/>
+					<PuffLoader size={150} color="#36d6b0" />
 				</div>
 			) : (
 				<Routes>
