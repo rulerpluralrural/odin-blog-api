@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import PuffLoader from "react-spinners/PuffLoader";
 import PostContent from "../components/PostPage/PostContent";
 
@@ -35,6 +35,23 @@ const Post = ({ user }) => {
 					Fetching data please wait...
 				</h1>
 				<PuffLoader size={150} color="#36d6b0" />
+			</div>
+		);
+	}
+
+	if (post === undefined) {
+		return (
+			<div className="flex flex-col py-10 items-center text-center">
+				<h1 className="text-3xl font-serif font-semibold mt-24">
+					PAGE NOT FOUND
+				</h1>
+				<Link
+					to="/"
+					className="text-blue-600 hover-text-blue-700 focus:text-blue-700 hover:underline focus:underline"
+				>
+					{" "}
+					Go back to home page...
+				</Link>
 			</div>
 		);
 	}
