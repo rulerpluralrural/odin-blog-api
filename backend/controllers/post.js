@@ -128,12 +128,14 @@ export default {
 	],
 
 	delete_post: asyncHandler(async (req, res) => {
-		const postId = req.params.id;
-		const post = await Post.findByIdAndDelete({ _id: postId });
+		const postID = req.params.id;
+		const post = await Post.findById({ _id: postID });
 
 		if (!post) {
-			throw new NotFoundError(`No post with this id ${postId}`);
+			throw new NotFoundError(`No post with this id ${postID}`);
 		}
+
+		await post.deleteOne()
 
 		res.status(StatusCodes.OK).json({
 			msg: `Post deleted successfully`,

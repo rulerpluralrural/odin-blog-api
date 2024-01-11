@@ -57,7 +57,7 @@ export default function App() {
 					<Route path="/blog/posts/:id" element={<Post user={user} />}></Route>
 					<Route
 						path="/blog/login"
-						element={<Login setUser={setUser} />}
+						element={<Login setUser={setUser} user={user} />}
 					></Route>
 					<Route path="/blog/sign-up" element={<Register />}></Route>
 				</Routes>

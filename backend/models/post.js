@@ -1,5 +1,7 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
+import Comment from "./comment.js"
+import PostLikes from "./postLikes.js"
 
 import { DateTime } from "luxon";
 
@@ -23,7 +25,7 @@ const PostSchema = new Schema(
 			default: false,
 		},
 		featured: {
-			type:Boolean,
+			type: Boolean,
 			default: false,
 		},
 		imgURL: {
@@ -47,8 +49,15 @@ PostSchema.virtual("comments", {
 PostSchema.virtual("likes", {
 	ref: "PostLikes",
 	localField: "_id",
-	foreignField: "post"
-})
+	foreignField: "post",
+});
+
+PostSchema.pre("deleteOne", function (next) {
+	// console.log(this)
+	Comment.deleteMany({ post: this._conditions._id }).exec();
+	PostLikes.deleteMany({ post: this._conditions._id }).exec();
+	next()
+});
 
 PostSchema.set("toJSON", { virtuals: true });
 

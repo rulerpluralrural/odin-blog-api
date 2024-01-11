@@ -7,6 +7,7 @@ const Post = ({ user }) => {
 	const { id } = useParams();
 	const [post, setPost] = useState(null);
 	const [loading, setLoading] = useState(false);
+	const [refreshKey, setRefreshKey] = useState(0);
 
 	useEffect(() => {
 		const fetchData = async () => {
@@ -23,7 +24,7 @@ const Post = ({ user }) => {
 			}
 		};
 		fetchData();
-	}, []);
+	}, [refreshKey]);
 
 	// console.log(post);
 
@@ -33,14 +34,19 @@ const Post = ({ user }) => {
 				<h1 className="font-bold font-serif text-xl">
 					Fetching data please wait...
 				</h1>
-				<PuffLoader size={150} color="#36d6b0"/>
+				<PuffLoader size={150} color="#36d6b0" />
 			</div>
 		);
 	}
 
 	return (
 		<div className="flex flex-col">
-			<PostContent post={post} user={user} id={id} />
+			<PostContent
+				post={post}
+				user={user}
+				id={id}
+				setRefreshKey={setRefreshKey}
+			/>
 		</div>
 	);
 };

@@ -4,8 +4,9 @@ import PuffLoader from "react-spinners/PuffLoader";
 import LoginForm from "../components/LoginPage/LoginForm";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import LoggedIn from "../components/LoginPage/LoggedIn";
 
-export default function Login({ setUser }) {
+export default function Login({ setUser, user }) {
 	const [formData, setFormData] = useState({
 		username: "",
 		password: "",
@@ -61,6 +62,10 @@ export default function Login({ setUser }) {
 		setShowPassword((prevState) => !prevState);
 	};
 
+	if (user) {
+		return <LoggedIn />;
+	}
+
 	return (
 		<div className="flex flex-col items-center gap-2 flex-1 font-serif">
 			<div className=" flex gap-2 text-4xl mt-28 mb-2">
@@ -68,7 +73,7 @@ export default function Login({ setUser }) {
 				<h1 className="font-bold">BLOG API</h1>
 			</div>
 			{loading ? (
-				<PuffLoader size={150} color="#36d6b0"/>
+				<PuffLoader size={150} color="#36d6b0" />
 			) : (
 				<LoginForm
 					username={username}

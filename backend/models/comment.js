@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
-import {DateTime} from "luxon"
+import { DateTime } from "luxon";
+import CommentLikes from "./commentLikes.js";
 
 const CommentSchema = new Schema(
 	{
@@ -30,9 +31,20 @@ CommentSchema.virtual("date_formatted").get(function () {
 CommentSchema.virtual("likes", {
 	ref: "CommentLikes",
 	localField: "_id",
-	foreignField: "comment"
-})
+	foreignField: "comment",
+});
+
+CommentSchema.pre("deleteMany", async function (next) {
+	const comments = await Comment.find(this._conditions);
+
+	for (const comment of comments) {
+		CommentLikes.deleteMany({ comment: comment._id }).exec();
+	}
+	next();
+});
 
 CommentSchema.set("toJSON", { virtuals: true });
 
-export default mongoose.model("Comment", CommentSchema);
+const Comment = mongoose.model("Comment", CommentSchema);
+
+export default Comment;

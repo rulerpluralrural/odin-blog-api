@@ -7,7 +7,7 @@ import {
 import { toast } from "react-toastify";
 import Comment from "../Comments/Comment";
 
-const PostContent = ({ post, user, id }) => {
+const PostContent = ({ post, user, id, setRefreshKey }) => {
 	const [comments, setComments] = useState(post.comments);
 
 	return (
@@ -18,6 +18,7 @@ const PostContent = ({ post, user, id }) => {
 				setComments={setComments}
 				comments={comments}
 				id={id}
+				setRefreshKey={setRefreshKey}
 			/>
 			{post.comments.length <= 0 ? (
 				<div className="self-center py-10">
@@ -110,7 +111,7 @@ const PostDetails = ({ post, user, id }) => {
 	);
 };
 
-const PostForm = ({ user, setComments, comments, id }) => {
+const PostForm = ({ user, setComments, comments, id, setRefreshKey }) => {
 	const [comment, setComment] = useState("");
 
 	const handleChange = (e) => {
@@ -133,6 +134,7 @@ const PostForm = ({ user, setComments, comments, id }) => {
 			).then((res) => res.json());
 			e.target.reset();
 			setComments([data.comment, ...comments]);
+			setRefreshKey(prevState => prevState +1)
 		} catch (error) {
 			console.log(error);
 		}
