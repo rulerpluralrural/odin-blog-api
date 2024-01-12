@@ -11,7 +11,7 @@ const Comment = ({ comment, user, setComments, comments }) => {
 
 	const deleteComment = async () => {
 		try {
-			await fetch(`http://localhost:8000/api/blog/comments/${comment._id}`, {
+			await fetch(`${import.meta.env.SERVER_URL}/api/blog/comments/${comment._id}`, {
 				method: "DELETE",
 				credentials: "include",
 				headers: {

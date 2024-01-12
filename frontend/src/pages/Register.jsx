@@ -29,7 +29,7 @@ export default function Login() {
 		e.preventDefault();
 		setLoading(true);
 		try {
-			const data = await fetch("http://localhost:8000/api/blog/sign-up", {
+			const data = await fetch(`${import.meta.env.SERVER_URL}/api/blog/sign-up`, {
 				method: "POST",
 				body: JSON.stringify(formData),
 				credentials: "include",

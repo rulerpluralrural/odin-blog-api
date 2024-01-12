@@ -18,7 +18,7 @@ export default function Navbar({
 	const navigate = useNavigate();
 	const logOut = async () => {
 		setLoadingSession(true);
-		await fetch("http://localhost:8000/api/blog/logout", {
+		await fetch(`${import.meta.env.SERVER_URL}/api/blog/logout`, {
 			method: "POST",
 			credentials: "include",
 		});

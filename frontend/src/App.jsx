@@ -18,7 +18,7 @@ export default function App() {
 			setLoadingSession(true);
 			try {
 				const response = await fetch(
-					"http://localhost:8000/api/blog/auth/session",
+					`${import.meta.env.SERVER_URL}/api/blog/auth/session`,
 					{
 						credentials: "include",
 					}

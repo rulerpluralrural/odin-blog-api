@@ -50,7 +50,7 @@ const PostDetails = ({ post, user, id }) => {
 				}, 5000);
 			} else {
 				const data = await fetch(
-					`http://localhost:8000/api/blog/posts/${id}/like`,
+					`${import.meta.env.SERVER_URL}/api/blog/posts/${id}/like`,
 					{
 						method: "POST",
 						credentials: "include",
@@ -122,7 +122,7 @@ const PostForm = ({ user, setComments, comments, id, setRefreshKey }) => {
 		e.preventDefault();
 		try {
 			const data = await fetch(
-				`http://localhost:8000/api/blog/posts/${id}/comment`,
+				`${import.meta.env.SERVER_URL}/api/blog/posts/${id}/comment`,
 				{
 					method: "POST",
 					body: JSON.stringify({ comment }),

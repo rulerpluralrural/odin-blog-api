@@ -27,7 +27,7 @@ export default function Login({ setUser, user }) {
 		e.preventDefault();
 		setLoading(true);
 		try {
-			const data = await fetch("http://localhost:8000/api/blog/login", {
+			const data = await fetch(`${import.meta.env.SERVER_URL}/api/blog/login`, {
 				method: "POST",
 				body: JSON.stringify(formData),
 				credentials: "include",
