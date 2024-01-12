@@ -14,7 +14,7 @@ const Post = ({ user }) => {
 			try {
 				setLoading(true);
 				const data = await fetch(
-					`${import.meta.env.SERVER_URL}/api/blog/posts/${id}`
+					`${import.meta.env.VITE_SERVER_URL}/api/blog/posts/${id}`
 				).then((res) => res.json());
 				setPost(data.post);
 				setLoading(false);

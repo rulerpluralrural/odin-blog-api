@@ -13,7 +13,7 @@ export default function Home({ user }) {
 		const fetchData = async () => {
 			try {
 				setLoading(true);
-				const data = await fetch(`${import.meta.env.SERVER_URL}/api/blog/posts`).then(
+				const data = await fetch(`${import.meta.env.VITE_SERVER_URL}/api/blog/posts`).then(
 					(res) => res.json()
 				);
 				setPosts(data.posts.filter((post) => post.published));
