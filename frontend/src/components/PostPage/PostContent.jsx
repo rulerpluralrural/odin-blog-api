@@ -122,7 +122,7 @@ const PostForm = ({ user, setComments, comments, id, setRefreshKey }) => {
 		e.preventDefault();
 		try {
 			const data = await fetch(
-				`${import.meta.env.SERVER_URL}/api/blog/posts/${id}/comment`,
+				`${import.meta.env.VITE_SERVER_URL}/api/blog/posts/${id}/comment`,
 				{
 					method: "POST",
 					body: JSON.stringify({ comment }),
