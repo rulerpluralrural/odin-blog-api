@@ -50,7 +50,7 @@ const PostDetails = ({ post, user, id }) => {
 				}, 5000);
 			} else {
 				const data = await fetch(
-					`${import.meta.env.SERVER_URL}/api/blog/posts/${id}/like`,
+					`${import.meta.env.VITE_SERVER_URL}/api/blog/posts/${id}/like`,
 					{
 						method: "POST",
 						credentials: "include",
